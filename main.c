@@ -6,13 +6,10 @@
 /*   By: ssutarmi <ssutarmi@student_42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/26 15:03:06 by ssutarmi          #+#    #+#             */
-/*   Updated: 2025/12/26 16:01:47 by ssutarmi         ###   ########.fr       */
+/*   Updated: 2025/12/27 13:30:32 by ssutarmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-void main(int argc, char *argv[], char *envp)
+void main(int argc, char *argv[], char *envp[])
 {
-	if (argc < 4)
-		return ;
-	else if (argc == 4)
 }
