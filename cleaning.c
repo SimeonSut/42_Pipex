@@ -1,25 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstclear_bonus.c                                :+:      :+:    :+:   */
+/*   cleaning.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ssutarmi <ssutarmi@student_42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/15 14:42:23 by ssutarmi          #+#    #+#             */
-/*   Updated: 2025/12/27 18:12:37 by ssutarmi         ###   ########.fr       */
+/*   Created: 2025/12/28 13:41:19 by ssutarmi          #+#    #+#             */
+/*   Updated: 2025/12/28 13:55:10 by ssutarmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "pipex.h"
 
-void	ft_lstclear(t_list **lst, void (*del)(void *))
+void	ft_free(char **table)
 {
-	t_list	*tmp;
+	int	i;
 
-	while (*lst)
-	{
-		tmp = (*lst)->next;
-		free(*lst);
-		*lst = tmp;
-	}
+	i = 0;
+	while (table[i])
+		free(table[i++]);
+	free(table);
 }

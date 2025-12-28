@@ -2,25 +2,16 @@ CC = cc
 
 FLAGS = -Wall -Wextra -Werror
 
-SRC = main.c 
-
-#SRC_BONUS =
+SRC = main.c ft_parsing.c cleaning.c
 
 HDR = pipex.h
 
-#HDR_BONUS = 
-
 NAME = pipex
-
-#NAME_BONUS = 
 
 all: $(NAME)
 
 $(NAME): $(SRC) libft
 	@$(CC) $(CFLAGS) $(SRC) libft.a -g -o $(NAME)
-
-#bonus: libft
-#	@$(CC) $(CFLAGS) $(SRC_BONUS) libft.a -g -o $(NAME_BONUS)
 
 libft:
 	@cd Libft ; make ; make clean ; mv 'libft.a' ..
