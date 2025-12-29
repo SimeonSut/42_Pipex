@@ -6,7 +6,7 @@
 /*   By: ssutarmi <ssutarmi@student_42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/28 16:31:04 by ssutarmi          #+#    #+#             */
-/*   Updated: 2025/12/28 19:33:25 by ssutarmi         ###   ########.fr       */
+/*   Updated: 2025/12/29 16:20:56 by ssutarmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,12 @@ void	ft_parsing(int argc, char **argv, char **envp)
 {
 	char	*paths;
 	char	*cmd_path;
-	char	*cmd_arg;
 
 	paths = ft_get_env_var(envp, "PATH=");
 	cmd_path = ft_exec_path(argv[2], ft_split(paths, ':'));
 	if (!cmd_path)
 		return ;
-	if (execve(cmd_path, &argv[1], envp) == -1)
+	if (execve(cmd_path, &argv[2], envp) == -1)
 		perror("execve");
 	return ;
 }
