@@ -6,7 +6,7 @@
 /*   By: ssutarmi <ssutarmi@student_42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/08 15:26:13 by ssutarmi          #+#    #+#             */
-/*   Updated: 2025/12/22 18:41:44 by ssutarmi         ###   ########.fr       */
+/*   Updated: 2025/12/30 13:49:06 by ssutarmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <stdarg.h>
 # include <fcntl.h>
 # include <stdio.h>
+# include <stdbool.h>
 
 // Structure Used
 typedef struct s_list
