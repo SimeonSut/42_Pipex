@@ -9,6 +9,7 @@ SRC = \
 	ft_isascii.c \
 	ft_isprint.c \
 	ft_strlen.c \
+	ft_doubleptr_len.c\
 	ft_memset.c \
 	ft_bzero.c \
 	ft_memcpy.c \

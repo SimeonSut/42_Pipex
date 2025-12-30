@@ -6,7 +6,7 @@
 /*   By: ssutarmi <ssutarmi@student_42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/08 15:26:13 by ssutarmi          #+#    #+#             */
-/*   Updated: 2025/12/28 14:19:52 by ssutarmi         ###   ########.fr       */
+/*   Updated: 2025/12/22 18:41:44 by ssutarmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,6 @@
 # include <stdarg.h>
 # include <fcntl.h>
 # include <stdio.h>
-# include <stdbool.h>
-# include <errno.h>
 
 // Structure Used
 typedef struct s_list
@@ -88,9 +86,10 @@ the length of the string is considered to be size
 and the destination string will not be NUL-terminated
 (since there was no space for the NUL)*/
 
-// Calculates the lenght of a string
+// Calculates the lenght of a string/table of arrays
 size_t	ft_strlen(const char *s);
-// Return value : lenght of string
+int		ft_doubleptr_len(const char **s);
+// Return value : lenght of string/table of arrays
 
 //----------STRING SEARCH AND SAFER COMPARE
 

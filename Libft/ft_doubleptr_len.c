@@ -1,25 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstclear.c                                      :+:      :+:    :+:   */
+/*   ft_doubleptr_len.c                                  :+:    :+:           */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ssutarmi <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/15 14:42:23 by ssutarmi          #+#    #+#             */
-/*   Updated: 2025/10/15 16:31:35 by ssutarmi         ###   ####lausanne.ch   */
+/*   Created: 2025/09/29 15:51:39 by ssutarmi          #+#    #+#             */
+/*   Updated: 2025/12/02 18:41:48 by ssutarmi       ########   odam.nl        */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "libft.h"
 
-void	ft_lstclear(t_list **lst, void (*del)(void *))
+int	ft_doubleptr_len(const char **s)
 {
-	t_list	*tmp;
+	int	i;
 
-	while (*lst)
-	{
-		tmp = (*lst)->next;
-		ft_lstdelone(*lst, del);
-		*lst = tmp;
-	}
+	i = 0;
+	while (s[i])
+		i++;
+	return (i);
 }

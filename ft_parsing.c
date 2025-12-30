@@ -6,7 +6,7 @@
 /*   By: ssutarmi <ssutarmi@student_42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/28 16:31:04 by ssutarmi          #+#    #+#             */
-/*   Updated: 2025/12/29 16:20:56 by ssutarmi         ###   ########.fr       */
+/*   Updated: 2025/12/30 13:37:46 by ssutarmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,3 +51,18 @@ static char	*ft_exec_path(char *command, char **paths)
 	}
 	return (free(command), ft_free(paths), NULL);
 }
+
+char	*ft_get_env_var(char **envp, char *key)
+{
+	int	i;
+
+	i = 0;
+	while (envp[i])
+	{
+		if (ft_strncmp(envp[i], key, 5) == 0)
+			return (envp[i]);
+		i++;
+	}
+	return (NULL);
+}
+
