@@ -1,36 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cleaning.c                                         :+:      :+:    :+:   */
+/*   ft_piping.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ssutarmi <ssutarmi@student_42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/28 13:41:19 by ssutarmi          #+#    #+#             */
-/*   Updated: 2025/12/31 19:15:19 by ssutarmi         ###   ########.fr       */
+/*   Created: 2025/12/31 19:26:26 by ssutarmi          #+#    #+#             */
+/*   Updated: 2025/12/31 20:42:33 by ssutarmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-void	ft_free(char **table)
+int	ft_piping(char *argv, t_pipe *head, int cmd_nbr)
 {
-	int	i;
+	int	pid;
+	int	nbr;
+	int	pipe_fd[2];
 
-	i = 0;
-	while (table[i])
-		free(table[i++]);
-	free(table);
-}
-
-void	ft_free_chain(t_pipe *head)
-{
-	t_pipe	*track;
-
-	while (head)
-	{
-		track = head->next;
-		free(head);
-		head = track;
-	}
-	return ;
+	nbr = 0;
+	if (pipe(pipe_fd) == -1)
+		return (ft_free_chain(head), perror("pipe"), 1);
+	while (nbr < (cmd_nbr + 1))
+		pid = fork();
 }
