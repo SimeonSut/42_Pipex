@@ -2,7 +2,7 @@ CC = cc
 
 FLAGS = -Wall -Wextra -Werror
 
-SRC = main.c ft_checking.c ft_parsing.c cleaning.c
+SRC = main.c ft_checking.c ft_parsing.c ft_piping.c utils.c cleaning.c
 
 HDR = pipex.h
 

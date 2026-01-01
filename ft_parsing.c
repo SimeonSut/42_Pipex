@@ -6,30 +6,30 @@
 /*   By: ssutarmi <ssutarmi@student_42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/28 16:31:04 by ssutarmi          #+#    #+#             */
-/*   Updated: 2025/12/31 19:24:23 by ssutarmi         ###   ########.fr       */
+/*   Updated: 2026/01/01 19:11:45 by ssutarmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-tatic t_pipe	*ft_new_node(char *cmd, char *exec_path, int pos, int pid);
+static t_pipe	*ft_new_node(char *cmd, char *exec_path, int pos, int pid);
 
 t_pipe	*ft_parsing(int argc, char **argv, char **paths, int len)
 {
 	int		i;
 	char	*path;
-	t_pipe *head;
-	t_pipe *node;
+	t_pipe	*head;
+	t_pipe	*node;
 
 	i = 1;
 	path = ft_find_exec_path(argv[i], paths);
-	head = ft_new_node(argv[i], path, i, 0);
+	head = ft_new_node(argv[i], path, i, -1);
 	node = head;
 	while (argv[++i] && i < len)
 	{
 		free(path);
 		path = ft_find_exec_path(argv[i], paths);
-		node->next = ft_new_node(argv[i], path, i, 0);
+		node->next = ft_new_node(argv[i], path, i, -1);
 		if (!node->next)
 			return (ft_free_chain(head), NULL);
 		node = node->next;
@@ -40,6 +40,7 @@ t_pipe	*ft_parsing(int argc, char **argv, char **paths, int len)
 static t_pipe	*ft_new_node(char *cmd, char *exec_path, int pos, int pid)
 {
 	t_pipe	*node;
+
 	node = malloc(sizeof(t_pipe));
 	if (!node)
 		return (NULL);
@@ -48,5 +49,5 @@ static t_pipe	*ft_new_node(char *cmd, char *exec_path, int pos, int pid)
 	node->pos = pos;
 	node->pid = pid;
 	node->next = NULL;
+	return (node);
 }
-

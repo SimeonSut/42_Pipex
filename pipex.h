@@ -17,9 +17,10 @@ int		main(int argc, char **argv, char **envp);
 bool	ft_check_args(char **argv, int len, char **paths);
 
 //ft_parsing.c//
-void	ft_parsing(int argc, char **argv, char **paths);
+t_pipe	*ft_parsing(int argc, char **argv, char **paths, int len);
 
 //ft_piping.c//
+int		ft_piping(char **argv, t_pipe *head, int proc_nbr);
 
 //utils.c//
 char	*ft_find_exec_path(char *command, char **paths);
