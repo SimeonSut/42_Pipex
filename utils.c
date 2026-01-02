@@ -6,44 +6,46 @@
 /*   By: ssutarmi <ssutarmi@student_42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/31 18:58:03 by ssutarmi          #+#    #+#             */
-/*   Updated: 2025/12/31 18:58:10 by ssutarmi         ###   ########.fr       */
+/*   Updated: 2026/01/02 20:17:02 by ssutarmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-char	*ft_find_exec_path(char *command, char **paths)
+char	*ft_find_exec_path(char *cmd, char **paths)
 {
 	char	*cmd_path;
 	int		i;
 
 	i = 0;
-	if (!command || !paths)
+	if (!cmd || !paths)
 		return (NULL);
-	command = ft_strjoin ("/", command);
+	if (access(cmd, F_OK) && access(cmd, R_OK) && access(cmd, W_OK))
+		return (cmd);
+	cmd = ft_strjoin ("/", cmd);
 	while (paths[i])
 	{
-		cmd_path = ft_strjoin(paths[i++], command);
+		cmd_path = ft_strjoin(paths[i++], cmd);
 		if (access(cmd_path, F_OK) == 0)
 		{
 			if ((access(cmd_path, R_OK) != 0) || (access(cmd_path, X_OK) != 0))
-				return (free(command), ft_free(paths), perror("access"), NULL);
+				return (free(cmd), free(cmd_path), perror("access"), NULL);
 			else
-				return (free(command), ft_free(paths), cmd_path);
+				return (free(cmd), cmd_path);
 		}
 		free (cmd_path);
 	}
-	return (free(command), ft_free(paths), NULL);
+	return (free(cmd), NULL);
 }
 
-char	*ft_get_env_var(char **envp, char *key, int check_len)
+char	*ft_get_env_var(char **envp, char *keyword, int check_len)
 {
 	int	i;
 
 	i = 0;
 	while (envp[i])
 	{
-		if (ft_strncmp(envp[i], key, check_len) == 0)
+		if (ft_strncmp(envp[i], keyword, check_len) == 0)
 			return (envp[i]);
 		i++;
 	}

@@ -1,12 +1,27 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pipex.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ssutarmi <ssutarmi@student_42lausanne.c    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/01/02 17:28:48 by ssutarmi          #+#    #+#             */
+/*   Updated: 2026/01/02 19:29:33 by ssutarmi         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-#include "Libft/libft.h"
+#ifndef PIPEX_H
+# define PIPEX_H
+
+# include "Libft/libft.h"
+# include <sys/wait.h>
 
 typedef struct s_pipe_list
 {
 	char				*cmd;
 	char				*exec_path;
 	int					pos;
-	int					pid;
+	pid_t				pid;
 	struct s_pipe_list	*next;
 }	t_pipe;
 
@@ -24,8 +39,11 @@ int		ft_piping(char **argv, t_pipe *head, int proc_nbr);
 
 //utils.c//
 char	*ft_find_exec_path(char *command, char **paths);
-char	*ft_get_env_var(char **envp, char *key, int check_len);
+char	*ft_get_env_var(char **envp, char *keyword, int check_len);
+int	ft_find_proc_nbr(char **argv);
 
 //cleaning.c//
 void	ft_free(char **table);
 void	ft_free_chain(t_pipe *head);
+
+#endif
