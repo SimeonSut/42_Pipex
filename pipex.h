@@ -6,7 +6,7 @@
 /*   By: ssutarmi <ssutarmi@student_42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/02 17:28:48 by ssutarmi          #+#    #+#             */
-/*   Updated: 2026/01/02 19:29:33 by ssutarmi         ###   ########.fr       */
+/*   Updated: 2026/01/06 20:57:01 by ssutarmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ typedef struct s_pipe_list
 	char				*cmd;
 	char				*exec_path;
 	int					pos;
-	pid_t				pid;
 	struct s_pipe_list	*next;
 }	t_pipe;
 
@@ -40,7 +39,7 @@ int		ft_piping(char **argv, t_pipe *head, int proc_nbr);
 //utils.c//
 char	*ft_find_exec_path(char *command, char **paths);
 char	*ft_get_env_var(char **envp, char *keyword, int check_len);
-int	ft_find_proc_nbr(char **argv);
+void	ft_populate_struct_pid(t_pipe *head, pid_t pid, int i);
 
 //cleaning.c//
 void	ft_free(char **table);

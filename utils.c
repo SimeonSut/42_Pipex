@@ -6,7 +6,7 @@
 /*   By: ssutarmi <ssutarmi@student_42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/31 18:58:03 by ssutarmi          #+#    #+#             */
-/*   Updated: 2026/01/02 20:17:02 by ssutarmi         ###   ########.fr       */
+/*   Updated: 2026/01/06 18:25:17 by ssutarmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,4 +50,17 @@ char	*ft_get_env_var(char **envp, char *keyword, int check_len)
 		i++;
 	}
 	return (NULL);
+}
+
+void	ft_populate_struct_pid(t_pipe *head, pid_t pid, int i)
+{
+	t_pipe	*node;
+	int		len;
+
+	node = head;
+	len = i + 1;
+	while (node->pos != len)
+		node = node->next;
+	node->pid = pid;
+	return ;
 }
