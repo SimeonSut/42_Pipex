@@ -6,7 +6,7 @@
 /*   By: ssutarmi <ssutarmi@student_42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/02 17:28:48 by ssutarmi          #+#    #+#             */
-/*   Updated: 2026/01/06 20:57:01 by ssutarmi         ###   ########.fr       */
+/*   Updated: 2026/01/07 14:17:23 by ssutarmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ bool	ft_check_args(char **argv, int len, char **paths);
 t_pipe	*ft_parsing(int argc, char **argv, char **paths, int len);
 
 //ft_piping.c//
-int		ft_piping(char **argv, t_pipe *head, int proc_nbr);
+int		ft_piping(char **argv, char **envp, t_pipe *head, int proc_nbr);
 
 //utils.c//
 char	*ft_find_exec_path(char *command, char **paths);

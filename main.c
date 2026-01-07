@@ -6,7 +6,7 @@
 /*   By: ssutarmi <ssutarmi@student_42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/26 15:03:06 by ssutarmi          #+#    #+#             */
-/*   Updated: 2026/01/02 20:08:28 by ssutarmi         ###   ########.fr       */
+/*   Updated: 2026/01/07 14:22:22 by ssutarmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,6 @@ int	main(int argc, char **argv, char **envp)
 	head = ft_parsing(argc, argv, paths, proc_nbr);
 	if (!head)
 		return (1);
-	ft_piping(argv, head, proc_nbr);
+	if (ft_piping(argv, envp, head, proc_nbr) == false)
 	return (0);
 }

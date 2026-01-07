@@ -6,7 +6,7 @@
 /*   By: ssutarmi <ssutarmi@student_42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/31 19:26:26 by ssutarmi          #+#    #+#             */
-/*   Updated: 2026/01/06 21:04:45 by ssutarmi         ###   ########.fr       */
+/*   Updated: 2026/01/07 14:21:43 by ssutarmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,9 @@
 
 static bool	ft_fork_create(t_pipe *head, int proc_nbr, pid_t pid);
 static void	ft_setup_wait_order(t_pipe *head, pid_t pid, int proc_nbr);
+static void	ft_exec_pipe_exit(t_pipe *head, int *pipefd, int pid);
 
-int	ft_piping(char **argv, t_pipe *head, int proc_nbr)
+int	ft_piping(char **argv, char **envp, t_pipe *head, int proc_nbr)
 {
 	pid_t	pid;
 	int		pipefd[2];
@@ -27,7 +28,8 @@ int	ft_piping(char **argv, t_pipe *head, int proc_nbr)
 		return (ft_free_chain(head), -1);
 	if (pid != 0)
 		waitpid(pid, NULL, 0);
-	ft_exec_pipe_exit(head, pipefd, pid);
+	ft_exec_pipe_exit(head, envp, pipefd, pid);
+	return (true);
 }
 
 static pid_t	ft_fork_create(t_pipe *head, int proc_nbr, int *fd)
@@ -49,11 +51,22 @@ static pid_t	ft_fork_create(t_pipe *head, int proc_nbr, int *fd)
 	return (pid);
 }
 
-ft_exec_pipe_exit(t_pipe *head, int *pipefd, int pid)
+static void	ft_exec_pipe_exit(t_pipe *head, int *pipefd, int pid)
 {
 	t_pipe *node;
 
 	node = head;
 	if (pid == 0)
+	{
 		close(pipefd[0]);
+		dup2(0, pipefd[1]);
+		close(0);
+		execve(head->exec_path, head->cmd, envp);
+		close(pipefd[0]);
+	}
+	else
+	{
+		dup2(0, pipefd[1]);
+		close(0)
+	}
 }
