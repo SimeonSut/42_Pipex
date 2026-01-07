@@ -6,7 +6,7 @@
 /*   By: ssutarmi <ssutarmi@student_42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/02 17:28:48 by ssutarmi          #+#    #+#             */
-/*   Updated: 2026/01/07 14:17:23 by ssutarmi         ###   ########.fr       */
+/*   Updated: 2026/01/07 18:02:43 by ssutarmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ int		ft_piping(char **argv, char **envp, t_pipe *head, int proc_nbr);
 //utils.c//
 char	*ft_find_exec_path(char *command, char **paths);
 char	*ft_get_env_var(char **envp, char *keyword, int check_len);
-void	ft_populate_struct_pid(t_pipe *head, pid_t pid, int i);
 
 //cleaning.c//
 void	ft_free(char **table);
