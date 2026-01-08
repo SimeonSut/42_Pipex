@@ -6,7 +6,7 @@
 /*   By: ssutarmi <ssutarmi@student_42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/31 19:26:26 by ssutarmi          #+#    #+#             */
-/*   Updated: 2026/01/07 19:22:20 by ssutarmi         ###   ########.fr       */
+/*   Updated: 2026/01/08 16:17:41 by ssutarmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,14 +62,18 @@ static void	ft_exec_pipe(t_pipe *head, char **envp, int *pipefd, int pid)
 	{
 		close(pipefd[0]);
 		dup2(pipefd[1], 1);
-		execve(node->exec_path, node->cmd, envp);
 	}
-	else
+	else if (pid != 0)
 	{
 		pwd_env_variable = ft_get_env_var(envp, "PWD=", 4);
 		fd = open(pwd_env_variable, O_CLOEXEC);
-		dup2(pipefd[1], fd);
+		dup2(fd, pipefd[0]);
 		dup2(pipefd[1], 1);
+	}
+	if (execve(node->exec_path, node->cmd, envp) == -1)
+	{
+		perror("execve : ");
+		exit();
 	}
 }
 // line 62: after the dup2 of pid == 0, do i need to close the write fd of the pipe or not?
