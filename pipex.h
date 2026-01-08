@@ -6,7 +6,7 @@
 /*   By: ssutarmi <ssutarmi@student_42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/02 17:28:48 by ssutarmi          #+#    #+#             */
-/*   Updated: 2026/01/07 18:02:43 by ssutarmi         ###   ########.fr       */
+/*   Updated: 2026/01/08 19:03:24 by ssutarmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,9 @@ typedef struct s_pipe_list
 {
 	char				*cmd;
 	char				*exec_path;
+	char				*file;
 	int					pos;
+	bool				mark;
 	struct s_pipe_list	*next;
 }	t_pipe;
 
@@ -31,7 +33,7 @@ int		main(int argc, char **argv, char **envp);
 bool	ft_check_args(char **argv, int len, char **paths);
 
 //ft_parsing.c//
-t_pipe	*ft_parsing(int argc, char **argv, char **paths, int len);
+t_pipe	*ft_parsing(char **argv, char **paths, int proc_nbr);
 
 //ft_piping.c//
 int		ft_piping(char **argv, char **envp, t_pipe *head, int proc_nbr);
