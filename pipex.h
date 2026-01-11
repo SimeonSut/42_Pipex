@@ -6,7 +6,7 @@
 /*   By: ssutarmi <ssutarmi@student_42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/02 17:28:48 by ssutarmi          #+#    #+#             */
-/*   Updated: 2026/01/08 19:03:24 by ssutarmi         ###   ########.fr       */
+/*   Updated: 2026/01/11 19:03:17 by ssutarmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include "Libft/libft.h"
 # include <sys/wait.h>
+# include <errno.h>
 
 typedef struct s_pipe_list
 {

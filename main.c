@@ -6,7 +6,7 @@
 /*   By: ssutarmi <ssutarmi@student_42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/26 15:03:06 by ssutarmi          #+#    #+#             */
-/*   Updated: 2026/01/08 18:09:37 by ssutarmi         ###   ########.fr       */
+/*   Updated: 2026/01/11 14:20:54 by ssutarmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,20 @@
 
 int	main(int argc, char **argv, char **envp)
 {
-	t_pipe	*head;
-	int		proc_nbr;
 	char	**paths;
+	int		proc_nbr;
+	t_pipe	*head;
 
 	if (argc < 5)
 		return (1);
 	paths = ft_split(ft_get_env_var(envp, "PATH=", 5), ':');
 	argv++;
-	proc_nbr = ft_check_args(argv, proc_nbr, paths);
+	proc_nbr = ft_check_args(argv, paths);
 	if (proc_nbr == -1)
-		return (1);
+		return (ft_free(paths), 1);
 	head = ft_parsing(argv, paths, proc_nbr);
 	if (!head)
-		return (1);
+		return (ft_free(paths), 1);
 	ft_piping(argv, envp, head, proc_nbr);
-	return (0);
+	return (ft_free(paths), 0);
 }
