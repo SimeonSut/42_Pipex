@@ -6,7 +6,7 @@
 /*   By: ssutarmi <ssutarmi@student_42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/31 18:58:03 by ssutarmi          #+#    #+#             */
-/*   Updated: 2026/01/11 18:28:38 by ssutarmi         ###   ########.fr       */
+/*   Updated: 2026/01/12 13:55:53 by ssutarmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,14 @@
 
 char	*ft_find_exec_path(char *cmd, char **paths)
 {
-	char	*cmdn;
 	char	*cmd_path;
+	char	*cmdn;
 	int		i;
 
 	i = 0;
 	if (!cmd || !paths)
 		return (NULL);
-	cmdn = cmd;
-	cmdn = ft_strjoin ("/", cmdn);
+	cmdn = ft_strjoin ("/", cmd);
 	while (paths[i])
 	{
 		cmd_path = ft_strjoin(paths[i++], cmdn);
