@@ -1,15 +1,15 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_doubleptr_len.c                                  :+:    :+:           */
+/*   ft_doubleptr_len.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssutarmi <marvin@42lausanne.ch>            +#+  +:+       +#+        */
+/*   By: ssutarmi <ssutarmi@student_42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 15:51:39 by ssutarmi          #+#    #+#             */
-/*   Updated: 2025/12/02 18:41:48 by ssutarmi       ########   odam.nl        */
+/*   Updated: 2026/01/13 17:10:05 by ssutarmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "libft.h"
+
 
 int	ft_doubleptr_len(const char **s)
 {

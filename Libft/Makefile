@@ -9,7 +9,9 @@ SRC = \
 	ft_isascii.c \
 	ft_isprint.c \
 	ft_strlen.c \
-	ft_doubleptr_len.c\
+	ft_doubleptr_len.c \
+	doubleptr_merge.c \
+	doubleptr_add.c \
 	ft_memset.c \
 	ft_bzero.c \
 	ft_memcpy.c \
@@ -57,6 +59,7 @@ SRC = \
 	ft_lstiter_bonus.c \
 	ft_lstmap_bonus.c \
 	ft_freejoin.c \
+	free_table.c \
 	get_next_line.c \
 
 OBJ = $(SRC:.c=.o)
@@ -72,7 +75,7 @@ $(NAME): $(OBJ)
 	@make clean
 
 %.o: %.c $(HDR)
-	@$(CC) $(CFLAGS) -c $< -o $@
+	@$(CC) $(CFLAGS) -c $< -g -o $@
 
 clean:
 	@rm -f $(OBJ)

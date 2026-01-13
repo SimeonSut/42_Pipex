@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_putun.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssutarmi <marvin@42lausanne.ch>            +#+  +:+       +#+        */
+/*   By: ssutarmi <ssutarmi@student_42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/21 11:38:49 by ssutarmi          #+#    #+#             */
-/*   Updated: 2025/10/24 17:36:28 by ssutarmi         ###   ####lausanne.ch   */
+/*   Updated: 2026/01/13 17:42:43 by ssutarmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
