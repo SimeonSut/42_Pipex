@@ -6,7 +6,7 @@
 /*   By: ssutarmi <ssutarmi@student_42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/31 19:26:26 by ssutarmi          #+#    #+#             */
-/*   Updated: 2026/01/13 15:49:54 by ssutarmi         ###   ########.fr       */
+/*   Updated: 2026/01/13 20:25:18 by ssutarmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,8 @@ int	ft_piping(char **argv, char **envp, t_pipe *head, int proc_nbr)
 		return (-1);
 	if (ft_pipeset(head, envp, pipefd, pid) == -1)
 		return (-1);
-	if (ft_execution();
+	if (ft_execution(head, envp) == -1)
+		return (-1);
 	return (true);
 }
 
@@ -94,10 +95,6 @@ static void	ft_execution(t_pipe *head, char **envp)
 	node = head;
 	while (node && node->mark != true)
 		node = node->next;
-	if (node->pos = 1 || !node->next)
-	{
-		len = ft_doubleptr_len(node->cmd_args) + 1;
-		tot_cmd_args = malloc((len + 1)sizeof(char *));
-		tot_cmd_args[len] = 
-	}
+	if (node->pos = 1)
+		tot_cmd_args = doubleptr_add(node->cmd_args, node->file, 0);
 }
