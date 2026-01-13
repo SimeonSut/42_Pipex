@@ -6,7 +6,7 @@
 /*   By: ssutarmi <ssutarmi@student_42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/28 16:31:04 by ssutarmi          #+#    #+#             */
-/*   Updated: 2026/01/12 17:32:48 by ssutarmi         ###   ########.fr       */
+/*   Updated: 2026/01/13 15:23:12 by ssutarmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ static char	**ft_get_cmd_args(char **argv, int pos)
 			i++;
 	}
 	cmd_args = malloc((i + 1) * sizeof(char *));
-	cmd_args[i] = "\0";
+	cmd_args[i] = NULL;
 	while (j < i)
 	{
 		cmd_args[j] = argv[(pos + j)];

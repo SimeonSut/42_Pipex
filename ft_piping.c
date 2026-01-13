@@ -6,7 +6,7 @@
 /*   By: ssutarmi <ssutarmi@student_42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/31 19:26:26 by ssutarmi          #+#    #+#             */
-/*   Updated: 2026/01/12 19:33:53 by ssutarmi         ###   ########.fr       */
+/*   Updated: 2026/01/13 15:49:54 by ssutarmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,26 +20,20 @@ int	ft_piping(char **argv, char **envp, t_pipe *head, int proc_nbr)
 	pid_t	pid;
 	int		pipefd[2];
 	int		wstatus;
-	t_pipe	*node;
 
 	wstatus = 0;
 	if (pipe(pipefd) == -1)
-		return (ft_free_chain(head), perror("pipe"), 1);
+		return (perror("pipe"), -1);
 	pid = ft_forking(head, proc_nbr);
 	if (pid == -1)
-		return (ft_free_chain(head), -1);
+		return (perror("fork"), -1);
 	if (pid != 0)
 		waitpid(pid, &wstatus, 0);
 	if (wstatus == EXIT_FAILURE)
-		exit(EXIT_FAILURE);
-	node = ft_pipeset(head, envp, pipefd, pid);
-	if (!node)
-	{
-		perror("");
-		exit(EXIT_FAILURE);
-	}
-	if (execve(node->exec_path, node->cmd_args, envp) == -1)
-		exit(EXIT_FAILURE);
+		return (-1);
+	if (ft_pipeset(head, envp, pipefd, pid) == -1)
+		return (-1);
+	if (ft_execution();
 	return (true);
 }
 
@@ -54,10 +48,7 @@ static pid_t	ft_forking(t_pipe *head, int proc_nbr)
 	{
 		pid = fork();
 		if (pid < 0)
-		{
-			perror("fork");
-			exit(EXIT_FAILURE);
-		}
+			return (-1);
 		else if (pid == 0)
 			proc_nbr--;
 		while (node->next && proc_nbr != node->pos)
@@ -67,7 +58,7 @@ static pid_t	ft_forking(t_pipe *head, int proc_nbr)
 	return (pid);
 }
 
-static t_pipe	ft_pipeset(t_pipe *head, char **envp, int *pipefd, int pid)
+static int	ft_pipeset(t_pipe *head, char **envp, int *pipefd, int pid)
 {
 	t_pipe	*node;
 	int		fd;
@@ -90,6 +81,23 @@ static t_pipe	ft_pipeset(t_pipe *head, char **envp, int *pipefd, int pid)
 		dup2(0, pipefd[0]);
 	}
 	if (fd == -1)
-		return (NULL);
-	return (node);
+		return (-1);
+	return (0);
+}
+
+static void	ft_execution(t_pipe *head, char **envp)
+{
+	t_pipe	*node;
+	char	**tot_cmd_args;
+	int		len;
+
+	node = head;
+	while (node && node->mark != true)
+		node = node->next;
+	if (node->pos = 1 || !node->next)
+	{
+		len = ft_doubleptr_len(node->cmd_args) + 1;
+		tot_cmd_args = malloc((len + 1)sizeof(char *));
+		tot_cmd_args[len] = 
+	}
 }
