@@ -6,13 +6,13 @@
 /*   By: ssutarmi <ssutarmi@student_42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/28 16:31:04 by ssutarmi          #+#    #+#             */
-/*   Updated: 2026/01/13 15:23:12 by ssutarmi         ###   ########.fr       */
+/*   Updated: 2026/01/14 13:42:19 by ssutarmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-static t_pipe	*ft_new_node(char *cmd, char *exec_path, char *file, int pos);
+static t_pipe	*ft_new_node(char **argv, char *exec_path, char *file, int pos);
 static char		**ft_get_cmd_args(char **argv, int pos);
 
 t_pipe	*ft_parsing(int argc, char **argv, char **paths, int proc_nbr)

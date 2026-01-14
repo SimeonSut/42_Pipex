@@ -6,7 +6,7 @@
 /*   By: ssutarmi <ssutarmi@student_42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/31 18:58:03 by ssutarmi          #+#    #+#             */
-/*   Updated: 2026/01/12 13:55:53 by ssutarmi         ###   ########.fr       */
+/*   Updated: 2026/01/14 19:09:53 by ssutarmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,26 +15,30 @@
 char	*ft_find_exec_path(char *cmd, char **paths)
 {
 	char	*cmd_path;
-	char	*cmdn;
 	int		i;
 
 	i = 0;
-	if (!cmd || !paths)
-		return (NULL);
-	cmdn = ft_strjoin ("/", cmd);
+	if (cmd[i] == '/')
+	{
+		if (access(cmd, F_OK | X_OK) == 0)
+			return (ft_strdup(cmd));
+		else
+			return (NULL);
+	}
+	cmd = ft_strjoin ("/", cmd);
 	while (paths[i])
 	{
-		cmd_path = ft_strjoin(paths[i++], cmdn);
+		cmd_path = ft_strjoin(paths[i++], cmd);
 		if (access(cmd_path, F_OK) == 0)
 		{
 			if (access(cmd_path, R_OK | X_OK) != 0)
-				return (free(cmdn), free(cmd_path), perror("access"), NULL);
+				return (free(cmd), free(cmd_path), NULL);
 			else
-				return (free(cmdn), cmd_path);
+				return (free(cmd), cmd_path);
 		}
 		free (cmd_path);
 	}
-	return (free(cmdn), cmd);
+	return (free(cmd), NULL);
 }
 
 char	*ft_get_env_var(char **envp, char *keyword, int check_len)

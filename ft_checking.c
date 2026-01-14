@@ -6,15 +6,15 @@
 /*   By: ssutarmi <ssutarmi@student_42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/31 17:57:42 by ssutarmi          #+#    #+#             */
-/*   Updated: 2026/01/12 15:28:59 by ssutarmi         ###   ########.fr       */
+/*   Updated: 2026/01/14 19:17:49 by ssutarmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-static int	ft_error_handler(char *argument, char **envp);
+static void	ft_command_not_found(char *argument, char **envp);
 
-int	ft_check_args(char **argv, char **paths)
+int	ft_check_args(char **argv, char **paths, char **envp)
 {
 	int		i;
 	int		proc_nbr;
@@ -23,32 +23,36 @@ int	ft_check_args(char **argv, char **paths)
 	i = 0;
 	proc_nbr = 0;
 	if (access(argv[i], F_OK) == -1)
-		return (ft_error_handler(argv[i]), envp);
+		return (ft_command_not_found(argv[i], envp), -1);
 	i++;
-	while (argv[i] && access(argv[i], F_OK) == 0)
+	while (argv[i])
 	{
-		proc_nbr++;
 		exec_path = ft_find_exec_path(argv[i], paths);
-		if (exec_path == NULL)
-			return (free(exec_path), -1);
-		free(exec_path);
-		i++;
-		while (argv[i] && access(argv[i], X_OK) == -1)
-			i++;
+		if (!exec_path)
+			return (ft_command_not_found(argv[i], envp), -1);
+		while (argv[i])
+		{
+			free(exec_path);
+			exec_path = ft_find_exec_path(argv[++i], paths);
+			if (exec_path)
+				break ;
+		}
 	}
-	if (argv[i])
-		ft_command_not_found(argv[i], envp);
 	return (proc_nbr);
 }
 
 static void	ft_command_not_found(char *argument, char **envp)
 {
-	char	*shell;
+	char	**shell_var;
+	int		i;
 
-	shell = ft_get_env_var(envp, "SHELL=", 6);
-	ft_putstr_fd(shell, 2);
+	i = 0;
+	shell_var = ft_split(ft_get_env_var(envp, "SHELL=", 6), '/');
+	while (shell_var[i])
+		i++;
+	ft_putstr_fd(shell_var[--i], 2);
 	ft_putstr_fd(": command not found: ", 2);
-	ft_putstr_fd(argument);
+	ft_putstr_fd(argument, 2);
 	ft_putchar_fd('\n', 2);
-	exit(127);
+	return (1);
 }
