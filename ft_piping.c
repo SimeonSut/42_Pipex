@@ -6,7 +6,7 @@
 /*   By: ssutarmi <ssutarmi@student_42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/31 19:26:26 by ssutarmi          #+#    #+#             */
-/*   Updated: 2026/01/14 15:35:04 by ssutarmi         ###   ########.fr       */
+/*   Updated: 2026/01/15 19:14:08 by ssutarmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 static pid_t	ft_forking(t_pipe *head, int proc_nbr);
 static int		ft_pipeset(t_pipe *head, char **envp, int *pipefd, int pid);
 static int		ft_execve(t_pipe *head, char **envp, int *pipefd, int file_fd);
+static void		print_struct(t_pipe *head);
 
 int	ft_piping(char **argv, char **envp, t_pipe *head, int proc_nbr)
 {
@@ -24,6 +25,7 @@ int	ft_piping(char **argv, char **envp, t_pipe *head, int proc_nbr)
 	int		file_fd;
 
 	wstatus = 0;
+	print_struct(head);
 	if (pipe(pipefd) == -1)
 		return (perror("pipe"), -1);
 	pid = ft_forking(head, proc_nbr);
@@ -54,7 +56,7 @@ static pid_t	ft_forking(t_pipe *head, int proc_nbr)
 			return (perror("fork"), -1);
 		else if (pid == 0)
 			proc_nbr--;
-		while (node->next && proc_nbr != node->pos)
+		while (node->next && proc_nbr != node->process)
 			node = node->next;
 		node->mark = true;
 	}
@@ -104,11 +106,30 @@ static int	ft_execve(t_pipe *head, char **envp, int *pipefd, int file_fd)
 		check = close(pipefd[0]);
 		node->cmd_args = doubleptr_add(node->cmd_args, node->file, 1);
 	}
-	else if (node->pos == 1)
+	else if (node->process == 1)
 		check = close(pipefd[1]);
 	if (check == -1)
 		return (perror("close"), -1);
 	if (execve(node->exec_path, node->cmd_args, envp) == -1)
 		return (perror("execve"), -1);
 	return (0);
+}
+
+static void	print_struct(t_pipe *head)
+{
+	t_pipe	*node;
+	int		i;
+
+	node = head;
+	while (node)
+	{
+		i = 0;
+		while (node->cmd_args[i])
+		{
+			ft_printf("for the process %d, arg is : %s\n", node->process, node->cmd_args[i++]);
+			ft_printf("exec_path is : %s\n", node->exec_path);
+		}
+			
+		node = node->next;
+	}
 }

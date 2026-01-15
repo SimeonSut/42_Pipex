@@ -4,8 +4,6 @@ FLAGS = -Wall -Wextra -Werror -g
 
 SRC = main.c ft_checking.c ft_parsing.c ft_piping.c utils.c cleaning.c
 
-HDR = pipex.h
-
 NAME = pipex
 
 all: $(NAME)

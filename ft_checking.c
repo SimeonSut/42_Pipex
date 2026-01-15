@@ -6,7 +6,7 @@
 /*   By: ssutarmi <ssutarmi@student_42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/31 17:57:42 by ssutarmi          #+#    #+#             */
-/*   Updated: 2026/01/14 19:17:49 by ssutarmi         ###   ########.fr       */
+/*   Updated: 2026/01/15 15:43:16 by ssutarmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,15 +28,17 @@ int	ft_check_args(char **argv, char **paths, char **envp)
 	while (argv[i])
 	{
 		exec_path = ft_find_exec_path(argv[i], paths);
-		if (!exec_path)
+		if (!exec_path && argv[(i + 1)])
 			return (ft_command_not_found(argv[i], envp), -1);
-		while (argv[i])
+		proc_nbr++;
+		free(exec_path);
+		while (argv[++i])
 		{
-			free(exec_path);
-			exec_path = ft_find_exec_path(argv[++i], paths);
+			exec_path = ft_find_exec_path(argv[i], paths);
 			if (exec_path)
 				break ;
 		}
+		free(exec_path);
 	}
 	return (proc_nbr);
 }
@@ -54,5 +56,6 @@ static void	ft_command_not_found(char *argument, char **envp)
 	ft_putstr_fd(": command not found: ", 2);
 	ft_putstr_fd(argument, 2);
 	ft_putchar_fd('\n', 2);
-	return (1);
+	free_table(shell_var);
+	return ;
 }

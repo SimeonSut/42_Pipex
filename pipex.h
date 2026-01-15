@@ -6,7 +6,7 @@
 /*   By: ssutarmi <ssutarmi@student_42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/02 17:28:48 by ssutarmi          #+#    #+#             */
-/*   Updated: 2026/01/14 16:08:24 by ssutarmi         ###   ########.fr       */
+/*   Updated: 2026/01/15 17:37:34 by ssutarmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ typedef struct s_pipe_list
 	char				**cmd_args;
 	char				*exec_path;
 	char				*file;
-	int					pos;
+	int					process;
 	bool				mark;
 	struct s_pipe_list	*next;
 }	t_pipe;
