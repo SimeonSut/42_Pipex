@@ -9,6 +9,7 @@ SRC = \
 	ft_isascii.c \
 	ft_isprint.c \
 	ft_strlen.c \
+	combine_ptr.c \
 	ft_doubleptr_len.c \
 	doubleptr_merge.c \
 	doubleptr_add.c \

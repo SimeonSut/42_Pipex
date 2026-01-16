@@ -6,7 +6,7 @@
 /*   By: ssutarmi <ssutarmi@student_42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/08 15:26:13 by ssutarmi          #+#    #+#             */
-/*   Updated: 2026/01/14 16:06:17 by ssutarmi         ###   ########.fr       */
+/*   Updated: 2026/01/16 21:02:42 by ssutarmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -247,14 +247,17 @@ void	free_table(char **table);
 //mode 0 dont free anything
 //mode 1 frees start;
 //mode 2 frees end;
-//all other inputs frees start and end;
+//mode 3 frees start and end;
 char	**doubleptr_merge(char **start, char **end, int mode);
 
 //add one string at the end of the src double pointer
 //mode 0 dont free anything
-//mode 1 frees src;
+//mode 1 frees start;
 //mode 2 frees add;
-//all other inputs frees src and add;
+//mode 3 frees start and add;
 char	**doubleptr_add(char **src, char *add, int mode);
+
+//combine several pointer into a single double pointer
+char	**combine_ptr(int count, ...);
 
 #endif
