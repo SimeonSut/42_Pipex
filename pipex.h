@@ -6,7 +6,7 @@
 /*   By: ssutarmi <ssutarmi@student_42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/02 17:28:48 by ssutarmi          #+#    #+#             */
-/*   Updated: 2026/01/15 17:37:34 by ssutarmi         ###   ########.fr       */
+/*   Updated: 2026/01/16 20:30:27 by ssutarmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,31 +18,18 @@
 
 typedef struct s_pipe_list
 {
-	char				**cmd_args;
-	char				*exec_path;
-	char				*file;
-	int					process;
-	bool				mark;
+	char				*token;
+	char				*pathname;
+	int					pos;
 	struct s_pipe_list	*next;
 }	t_pipe;
 
-//main.c//
-int		main(int argc, char **argv, char **envp);
+t_pipe	*parsing(char **argv, char *path_var);
 
-//ft_checking.c//
-int		ft_check_args(char **argv, char **paths, char **envp);
+char	*get_env_var(char **envp, char *keyword, int check_len);
 
-//ft_parsing.c//
-t_pipe	*ft_parsing(int argc, char **argv, char **paths, int proc_nbr);
+void	free_chain(t_pipe *head);
 
-//ft_piping.c//
-int		ft_piping(char **argv, char **envp, t_pipe *head, int proc_nbr);
-
-//utils.c//
-char	*ft_find_exec_path(char *cmd, char **paths);
-char	*ft_get_env_var(char **envp, char *keyword, int check_len);
-
-//cleaning.c//
-void	ft_free_chain(t_pipe *head);
+int piping(t_pipe *head, char **argv);
 
 #endif

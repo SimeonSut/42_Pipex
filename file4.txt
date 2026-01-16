@@ -1,2 +1,4 @@
 < ../file3.txt ../../../../usr/bin/cat | cat > file4.txt
 ../../../../usr/bin/echo 'Hello World'
+
+< infile ls -l | wc -l > outfile

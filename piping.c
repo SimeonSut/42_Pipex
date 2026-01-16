@@ -1,26 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cleaning.c                                         :+:      :+:    :+:   */
+/*   piping.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ssutarmi <ssutarmi@student_42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/28 13:41:19 by ssutarmi          #+#    #+#             */
-/*   Updated: 2026/01/16 17:50:23 by ssutarmi         ###   ########.fr       */
+/*   Created: 2025/12/31 19:26:26 by ssutarmi          #+#    #+#             */
+/*   Updated: 2026/01/16 20:40:40 by ssutarmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-void	free_chain(t_pipe *head)
+int	piping(t_pipe *head, char **argv)
 {
-	t_pipe	*track;
+	int		pipefd[2];
+	pid_t	pid;
 
-	while (head)
+	if (pipe(pipefd) == -1)
+		return (perror("pipe"), -1);
+	pid = fork();
+	if (pid == -1)
+		return (perror("fork"), -1);
+	if (pid == 0)
 	{
-		track = head;
-		free(head->pathname);
-		head = head->next;
-		free(track);
+		close (pipefd[0]);
+		dup2(pipefd[1], 1);
 	}
 }
