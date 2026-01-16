@@ -6,7 +6,7 @@
 /*   By: ssutarmi <ssutarmi@student_42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/26 15:03:06 by ssutarmi          #+#    #+#             */
-/*   Updated: 2026/01/16 20:31:08 by ssutarmi         ###   ########.fr       */
+/*   Updated: 2026/01/16 23:57:40 by ssutarmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,18 +25,28 @@ int	main(int argc, char **argv, char **envp)
 	if (!head)
 		return (1);
 	print_chain(head);
-	if (piping(head, argv) == -1)
-		return (1);
+	/*if (piping(head, argv) == -1)
+		return (1);*/
 	return (free_chain(head), argc);
 }
 
 static void	print_chain(t_pipe *head)
 {
+	int	i;
+
+	i = 0;
 	while (head)
 	{
 		ft_printf("pos %d token	is : %s\n", head->pos, head->token);
 		ft_printf("pos %d pathname	is : %s\n", head->pos, head->pathname);
-		ft_printf("\n");
+		if (head->arguments)
+		{
+			while (head->arguments[i])
+			{
+				ft_printf("arg are %s\n", head->arguments[i]);
+				i++;
+			}
+		}
 		head = head->next;
 	}
 }
