@@ -6,7 +6,7 @@
 /*   By: ssutarmi <ssutarmi@student_42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/28 16:31:04 by ssutarmi          #+#    #+#             */
-/*   Updated: 2026/01/17 15:45:02 by ssutarmi         ###   ########.fr       */
+/*   Updated: 2026/01/17 16:46:29 by ssutarmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ t_pipe	*parsing(char **argv, char *path_var)
 	t_pipe	*node;
 	int		count;
 
-	count = 1;
 	head = chain_creation(argv);
 	if (!head)
 		return (NULL);
@@ -38,6 +37,7 @@ t_pipe	*parsing(char **argv, char *path_var)
 		node = node->next;
 	}
 	node = head;
+	count = 1;
 	chain_args_addition(node, count);
 	return (head);
 }
@@ -129,7 +129,7 @@ static void	chain_args_addition(t_pipe *node, int count)
 		node->arguments = args;
 	if (node->next && node->next->pathname && node->next->next)
 		chain_args_addition(node->next, ++count);
-	return ;
+	node->next->pos = node->pos + 1;
 }
 
 /*static t_pipe	*chain_creation(char **argv, char *path_var)
