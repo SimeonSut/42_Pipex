@@ -6,7 +6,7 @@
 /*   By: ssutarmi <ssutarmi@student_42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/28 16:31:04 by ssutarmi          #+#    #+#             */
-/*   Updated: 2026/01/17 00:07:39 by ssutarmi         ###   ########.fr       */
+/*   Updated: 2026/01/17 15:45:02 by ssutarmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,15 @@
 static t_pipe	*chain_creation(char **argv);
 static t_pipe	*new_node(char *token, int pos);
 static char		*find_exec_pathname(char *arg, char *path_var);
-static void		chain_args_addition(t_pipe *head);
+static void		chain_args_addition(t_pipe *node, int count);
 
 t_pipe	*parsing(char **argv, char *path_var)
 {
 	t_pipe	*head;
 	t_pipe	*node;
+	int		count;
 
+	count = 1;
 	head = chain_creation(argv);
 	if (!head)
 		return (NULL);
@@ -35,7 +37,8 @@ t_pipe	*parsing(char **argv, char *path_var)
 		}
 		node = node->next;
 	}
-	chain_args_addition(head);
+	node = head;
+	chain_args_addition(node, count);
 	return (head);
 }
 
@@ -100,30 +103,32 @@ static char	*find_exec_pathname(char *arg, char *path_var)
 	return (free_table(paths), free(name), NULL);
 }
 
-static void	chain_args_addition(t_pipe *head)
+static void	chain_args_addition(t_pipe *node, int count)
 {
-	t_pipe	*node;
 	t_pipe	*track;
 	char	**args;
 
-	node = head;
 	while (node->next && !node->pathname)
 		node = node->next;
-	if (node->next->next && !node->next->pathname)
-		args = combine_ptr(1, node->next->token);
-	track = node->next;
-	node->next = node->next->next;
-	free(track);
-	while (node->next->next && !node->next->pathname)
+	node->pos = count;
+	args = NULL;
+	if (node->next && node->next->next && !node->next->pathname)
 	{
+		args = combine_ptr(1, node->next->token);
+		track = node->next;
+		node->next = node->next->next;
+	}
+	while (node->next && node->next->next && !node->next->pathname)
+	{
+		free(track);
 		args = doubleptr_add(args, node->next->token, 1);
 		track = node->next;
 		node->next = node->next->next;
-		free(track);
 	}
-	node->arguments = args;
-	if (node->next->pathname && node->next->next)
-		chain_args_addition(node->next);
+	if (args)
+		node->arguments = args;
+	if (node->next && node->next->pathname && node->next->next)
+		chain_args_addition(node->next, ++count);
 	return ;
 }
 

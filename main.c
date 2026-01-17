@@ -6,7 +6,7 @@
 /*   By: ssutarmi <ssutarmi@student_42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/26 15:03:06 by ssutarmi          #+#    #+#             */
-/*   Updated: 2026/01/16 23:57:40 by ssutarmi         ###   ########.fr       */
+/*   Updated: 2026/01/17 14:55:40 by ssutarmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ static void	print_chain(t_pipe *head)
 		ft_printf("pos %d pathname	is : %s\n", head->pos, head->pathname);
 		if (head->arguments)
 		{
+			i = 0;
 			while (head->arguments[i])
 			{
 				ft_printf("arg are %s\n", head->arguments[i]);
