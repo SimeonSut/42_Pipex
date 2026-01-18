@@ -6,7 +6,7 @@
 /*   By: ssutarmi <ssutarmi@student_42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/02 17:28:48 by ssutarmi          #+#    #+#             */
-/*   Updated: 2026/01/16 22:35:57 by ssutarmi         ###   ########.fr       */
+/*   Updated: 2026/01/18 17:17:38 by ssutarmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@ t_pipe	*parsing(char **argv, char *path_var);
 char	*get_env_var(char **envp, char *keyword, int check_len);
 
 void	free_chain(t_pipe *head);
+t_pipe	*free_node(t_pipe *node);
 
-int piping(t_pipe *head, char **argv);
+int		piping(t_pipe *head, char **argv, char **envp);
 
 #endif

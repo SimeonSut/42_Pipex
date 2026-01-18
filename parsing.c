@@ -6,7 +6,7 @@
 /*   By: ssutarmi <ssutarmi@student_42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/28 16:31:04 by ssutarmi          #+#    #+#             */
-/*   Updated: 2026/01/17 16:46:29 by ssutarmi         ###   ########.fr       */
+/*   Updated: 2026/01/18 17:13:02 by ssutarmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ static char	*find_exec_pathname(char *arg, char *path_var)
 
 	i = 0;
 	if (arg[i] == '/' && access(arg, X_OK) == 0)
-		return (arg);
+		return (ft_strdup(arg));
 	else if (arg[i] == '/' && access(arg, X_OK) == -1)
 		return (NULL);
 	name = ft_strjoin("/", arg);
@@ -105,29 +105,25 @@ static char	*find_exec_pathname(char *arg, char *path_var)
 
 static void	chain_args_addition(t_pipe *node, int count)
 {
-	t_pipe	*track;
 	char	**args;
 
 	while (node->next && !node->pathname)
 		node = node->next;
 	node->pos = count;
 	args = NULL;
-	if (node->next && node->next->next && !node->next->pathname)
+	if (node && node->next && node->next->next && !node->next->pathname)
 	{
-		args = combine_ptr(1, node->next->token);
-		track = node->next;
-		node->next = node->next->next;
+		args = combine_ptr(2, node->pathname, node->next->token);
+		node->next = free_node(node->next);
 	}
-	while (node->next && node->next->next && !node->next->pathname)
+	while (node && node->next && node->next->next && !node->next->pathname)
 	{
-		free(track);
 		args = doubleptr_add(args, node->next->token, 1);
-		track = node->next;
-		node->next = node->next->next;
+		node->next = free_node(node->next);
 	}
 	if (args)
 		node->arguments = args;
-	if (node->next && node->next->pathname && node->next->next)
+	if (node && node->next && node->next->pathname && node->next->next)
 		chain_args_addition(node->next, ++count);
 	node->next->pos = node->pos + 1;
 }
@@ -142,7 +138,7 @@ static void	chain_args_addition(t_pipe *node, int count)
 	i = 0;
 	if (access(argv[i], F_OK) == -1)
 		return (perror(argv[i]), NULL);
-	head = new_node(argv[i++], NULL);
+	head = new_node(argv[i++], NULL); 
 	node = head;
 	while (argv[i + 1])
 	{
