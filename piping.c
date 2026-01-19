@@ -6,89 +6,111 @@
 /*   By: ssutarmi <ssutarmi@student_42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/31 19:26:26 by ssutarmi          #+#    #+#             */
-/*   Updated: 2026/01/18 19:36:46 by ssutarmi         ###   ########.fr       */
+/*   Updated: 2026/01/19 21:19:28 by ssutarmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-static void	child_process(t_pipe *head, char **argv, char **envp, int *pipefd);
-static void	parent_process(t_pipe *head, char **argv, char **envp, int *pipefd);
+static void	input_process(t_pipe *head, char **envp, int *pipefd);
+static int	output_process(t_pipe *head, char **envp, int *pipefd);
+static void	print_chain(t_pipe *head);
 
-int	piping(t_pipe *head, char **argv, char **envp)
+int	piping(t_pipe *head, char **envp)
 {
 	int		pipefd[2];
-	char	**args;
-	t_pipe	*node;
-	pid_t	pid;
+	pid_t	pid_in;
+	pid_t	pid_out;
 
-	node = head;
 	if (pipe(pipefd) == -1)
 		return (perror("pipe"), -1);
-	pid = fork();
-	if (pid == -1)
+	pid_in = fork();
+	if (pid_in == -1)
 		return (perror("fork"), -1);
-	if (pid == 0)
-		child_process(head, argv, envp, pipefd);
-	else if (pid != 0)
+	if (pid_in == 0)
+		input_process(head, envp, pipefd);
+	if (waitpid(pid_in, NULL, 0) == -1)
+		return (-1);
+	pid_out = fork();
+	if (pid_out != 0)
 	{
-		if (waitpid(pid, NULL, 0) == -1)
-			perror("waitpid");
-		parent_process(head, argv, envp, pipefd);
+		close(pipefd[0]);
+		close(pipefd[1]);
 	}
+	if (pid_out == 0)
+		output_process(head, envp, pipefd);
+	if (waitpid(pid_out, NULL, 0) == -1)
+		return (-1);
 	return (0);
 }
 
-static void	child_process(t_pipe *head, char **argv, char **envp, int *pipefd)
+static void	input_process(t_pipe *head, char **envp, int *pipefd)
 {
 	t_pipe	*node;
 	int		fd;
-	int		new_fd;
-	int		pipe_w;
+	char	*input_file;
 
 	node = head;
+	input_file = node->token;
 	fd = open(node->token, O_RDWR);
 	if (fd == -1)
-		perror("child open");
-	new_fd = dup2(fd, 0);
-	if (new_fd == -1)
-		perror("child dup2");
+		perror("input open");
+	if (dup2(fd, STDIN_FILENO) == -1)
+		perror("input dup2");
 	close(fd);
 	while (!node->pathname)
 		node = node->next;
-	pipe_w = dup2(pipefd[1], 1);
-	if (pipe_w == -1)
-		perror("2ndchild dup2");
-	close(pipefd[0]);
-	close(pipefd[1]);
+	node->arguments = doubleptr_add(node->arguments, input_file, 1);
+	if (dup2(pipefd[1], STDOUT_FILENO) == -1)
+		perror("2ndinput dup2");
+	//close(pipefd[1]);
+	//close(pipefd[0]);
 	execve(node->pathname, node->arguments, envp);
-	perror("execve child");
+	perror("execve input");
 	exit(EXIT_FAILURE);
 }
 
-static void	parent_process(t_pipe *head, char **argv, char **envp, int *pipefd)
+static int	output_process(t_pipe *head, char **envp, int *pipefd)
 {
 	t_pipe	*node;
 	int		fd;
-	int		pipe_r;
-	int		outfile;
 
 	node = head;
 	while (node && node->next && node->next->next)
 		node = node->next;
-	pipe_r = dup2(pipefd[0], 0);
-	if (pipe_r == -1)
+	if (dup2(pipefd[0], STDIN_FILENO) == -1)
 		perror("parent dup2");
 	close(pipefd[0]);
 	close(pipefd[1]);
 	fd = open(node->next->token, O_CREAT, S_IRWXU | S_IRGRP | S_IROTH);
 	if (fd == -1)
 		perror("parent open");
-	outfile = dup2(fd, 1);
-	if (outfile == -1)
-		perror("parent 2nddup2");
-	close(fd);
+	//if (dup2(STDOUT_FILENO, fd) == -1)
+	//	perror("parents dup2");
+	print_chain(node);
 	execve(node->pathname, node->arguments, envp);
 	perror("execve parent");
 	exit(EXIT_FAILURE);
+}
+
+static void	print_chain(t_pipe *head)
+{
+	int	i;
+
+	i = 0;
+	while (head)
+	{
+		ft_printf("pos %d token	is : %s\n", head->pos, head->token);
+		ft_printf("pos %d pathname	is : %s\n", head->pos, head->pathname);
+		if (head->arguments)
+		{
+			i = 0;
+			while (head->arguments[i])
+			{
+				ft_printf("arg are %s\n", head->arguments[i]);
+				i++;
+			}
+		}
+		head = head->next;
+	}
 }
