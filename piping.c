@@ -6,7 +6,7 @@
 /*   By: ssutarmi <ssutarmi@student_42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/31 19:26:26 by ssutarmi          #+#    #+#             */
-/*   Updated: 2026/01/19 21:19:28 by ssutarmi         ###   ########.fr       */
+/*   Updated: 2026/01/20 22:53:39 by ssutarmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static void	input_process(t_pipe *head, char **envp, int *pipefd);
 static int	output_process(t_pipe *head, char **envp, int *pipefd);
-static void	print_chain(t_pipe *head);
+//static void	print_chain(t_pipe *head);
 
 int	piping(t_pipe *head, char **envp)
 {
@@ -40,7 +40,7 @@ int	piping(t_pipe *head, char **envp)
 	if (pid_out == 0)
 		output_process(head, envp, pipefd);
 	if (waitpid(pid_out, NULL, 0) == -1)
-		return (-1);
+		return (perror("waitpid piping"), -1);
 	return (0);
 }
 
@@ -51,56 +51,58 @@ static void	input_process(t_pipe *head, char **envp, int *pipefd)
 	char	*input_file;
 
 	node = head;
-	input_file = node->token;
-	fd = open(node->token, O_RDWR);
+	input_file = node->input;
+	fd = open(input_file, O_RDONLY);
 	if (fd == -1)
 		perror("input open");
 	if (dup2(fd, STDIN_FILENO) == -1)
 		perror("input dup2");
-	close(fd);
-	while (!node->pathname)
+	while (node && node->pos != 1)
 		node = node->next;
+	close(fd);
 	node->arguments = doubleptr_add(node->arguments, input_file, 1);
 	if (dup2(pipefd[1], STDOUT_FILENO) == -1)
 		perror("2ndinput dup2");
-	//close(pipefd[1]);
-	//close(pipefd[0]);
 	execve(node->pathname, node->arguments, envp);
 	perror("execve input");
+	free_chain(head);
 	exit(EXIT_FAILURE);
 }
 
 static int	output_process(t_pipe *head, char **envp, int *pipefd)
 {
 	t_pipe	*node;
+	char	*output_file;
 	int		fd;
 
 	node = head;
-	while (node && node->next && node->next->next)
+	while (node && node->pos != 2)
 		node = node->next;
+	output_file = node->next->input;
 	if (dup2(pipefd[0], STDIN_FILENO) == -1)
 		perror("parent dup2");
-	close(pipefd[0]);
 	close(pipefd[1]);
-	fd = open(node->next->token, O_CREAT, S_IRWXU | S_IRGRP | S_IROTH);
+	close(pipefd[0]);
+	fd = open(output_file, O_CREAT | O_RDWR | O_TRUNC);
 	if (fd == -1)
 		perror("parent open");
-	//if (dup2(STDOUT_FILENO, fd) == -1)
-	//	perror("parents dup2");
-	print_chain(node);
+	if (dup2(fd, STDOUT_FILENO) == -1)
+		perror("dup2");
+	close(fd);
 	execve(node->pathname, node->arguments, envp);
 	perror("execve parent");
+	free_chain(head);
 	exit(EXIT_FAILURE);
 }
 
-static void	print_chain(t_pipe *head)
+/*static void	print_chain(t_pipe *head)
 {
 	int	i;
 
 	i = 0;
 	while (head)
 	{
-		ft_printf("pos %d token	is : %s\n", head->pos, head->token);
+		ft_printf("pos %d input	is : %s\n", head->pos, head->input);
 		ft_printf("pos %d pathname	is : %s\n", head->pos, head->pathname);
 		if (head->arguments)
 		{
@@ -113,4 +115,4 @@ static void	print_chain(t_pipe *head)
 		}
 		head = head->next;
 	}
-}
+}*/

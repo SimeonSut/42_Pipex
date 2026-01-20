@@ -1,41 +1,44 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing.c                                          :+:      :+:    :+:   */
+/*   old_model.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ssutarmi <ssutarmi@student_42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/28 16:31:04 by ssutarmi          #+#    #+#             */
-/*   Updated: 2026/01/20 22:47:55 by ssutarmi         ###   ########.fr       */
+/*   Created: 2026/01/16 14:16:11 by ssutarmi          #+#    #+#             */
+/*   Updated: 2026/01/20 16:59:04 by ssutarmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+// parsing.c
 
 static t_pipe	*chain_creation(char **argv);
-static t_pipe	*new_node(char *input, int pos);
+static t_pipe	*new_node(char *token, int pos);
 static char		*find_exec_pathname(char *arg, char *path_var);
-char			**organize_arguments(char *pathname, char **args);
+static void		chain_args_addition(t_pipe *node, int count);
 
 t_pipe	*parsing(char **argv, char *path_var)
 {
 	t_pipe	*head;
 	t_pipe	*node;
-	char	**args;
+	int		count;
 
 	head = chain_creation(argv);
-	node = head->next;
-	while (node && node->next)
+	if (!head)
+		return (NULL);
+	node = head;
+	while (node)
 	{
-		args = ft_split(node->input, ' ');
-		node->pathname = find_exec_pathname(args[0], path_var);
-		if (node->pathname)
-			node->arguments = organize_arguments(node->pathname, args);
-		free_table(args);
-		if (!node->arguments)
-			return (free_chain(head), free(args), NULL);
+		if (node->pos != 0 || !node->next)
+		{
+			if (node->token[0] != '-')
+				node->pathname = find_exec_pathname(node->token, path_var);
+		}
 		node = node->next;
 	}
+	node = head;
+	count = 1;
+	chain_args_addition(node, count);
 	return (head);
 }
 
@@ -58,14 +61,14 @@ static t_pipe	*chain_creation(char **argv)
 	return (head);
 }
 
-static t_pipe	*new_node(char *input, int pos)
+static t_pipe	*new_node(char *token, int pos)
 {
 	t_pipe	*node;
 
 	node = malloc(sizeof(t_pipe));
 	if (!node)
 		return (NULL);
-	node->input = input;
+	node->token = token;
 	node->pathname = NULL;
 	node->arguments = NULL;
 	node->pos = pos;
@@ -100,20 +103,27 @@ static char	*find_exec_pathname(char *arg, char *path_var)
 	return (free_table(paths), free(name), NULL);
 }
 
-char	**organize_arguments(char *pathname, char **args)
+static void	chain_args_addition(t_pipe *node, int count)
 {
-	int		i;
-	int		len;
-	char	**result;
+	char	**args;
 
-	i = 0;
-	len = ft_doubleptr_len((const char **)args);
-	result = malloc((len + 1) * sizeof(char *));
-	if (!result)
-		return (NULL);
-	result[len] = NULL;
-	result[i] = ft_strdup(pathname);
-	while (++i < len)
-		result[i] = ft_strdup(args[i]);
-	return (result);
+	while (node->next && !node->pathname)
+		node = node->next;
+	node->pos = count;
+	args = NULL;
+	if (node && node->next && node->next->next && !node->next->pathname)
+	{
+		args = combine_ptr(2, node->pathname, node->next->token);
+		node->next = free_node(node->next);
+	}
+	while (node && node->next && node->next->next && !node->next->pathname)
+	{
+		args = doubleptr_add(args, node->next->token, 1);
+		node->next = free_node(node->next);
+	}
+	if (args)
+		node->arguments = args;
+	if (node && node->next && node->next->pathname && node->next->next)
+		chain_args_addition(node->next, ++count);
+	node->next->pos = node->pos + 1;
 }

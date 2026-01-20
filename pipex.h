@@ -6,7 +6,7 @@
 /*   By: ssutarmi <ssutarmi@student_42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/02 17:28:48 by ssutarmi          #+#    #+#             */
-/*   Updated: 2026/01/19 20:28:36 by ssutarmi         ###   ########.fr       */
+/*   Updated: 2026/01/20 17:46:26 by ssutarmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 
 typedef struct s_pipe_list
 {
-	char				*token;
+	char				*input;
 	char				*pathname;
 	char				**arguments;
 	int					pos;
