@@ -1,25 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   main_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ssutarmi <ssutarmi@student_42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/26 15:03:06 by ssutarmi          #+#    #+#             */
-/*   Updated: 2026/01/21 17:29:04 by ssutarmi         ###   ########.fr       */
+/*   Created: 2026/01/21 18:12:32 by ssutarmi          #+#    #+#             */
+/*   Updated: 2026/01/21 18:47:54 by ssutarmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-//static void	print_chain(t_pipe *head);
+static void	print_chain(t_pipe *head);
 
 int	main(int argc, char **argv, char **envp)
 {
 	char	*path_var;
 	t_pipe	*head;
 
-	if (argc != 5)
+	if (argc < 5)
 		return (0);
 	argv++;
 	if (access(*argv, F_OK) == -1)
@@ -33,7 +33,7 @@ int	main(int argc, char **argv, char **envp)
 	return (free_chain(head), 1);
 }
 
-/*static void	print_chain(t_pipe *head)
+static void	print_chain(t_pipe *head)
 {
 	int	i;
 
@@ -52,4 +52,4 @@ int	main(int argc, char **argv, char **envp)
 		}
 		head = head->next;
 	}
-}*/
+}

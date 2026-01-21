@@ -6,7 +6,7 @@
 /*   By: ssutarmi <ssutarmi@student_42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/28 16:31:04 by ssutarmi          #+#    #+#             */
-/*   Updated: 2026/01/20 22:47:55 by ssutarmi         ###   ########.fr       */
+/*   Updated: 2026/01/21 17:16:27 by ssutarmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static t_pipe	*chain_creation(char **argv);
 static t_pipe	*new_node(char *input, int pos);
 static char		*find_exec_pathname(char *arg, char *path_var);
-char			**organize_arguments(char *pathname, char **args);
+static char		**organize_arguments(char **args);
 
 t_pipe	*parsing(char **argv, char *path_var)
 {
@@ -30,10 +30,10 @@ t_pipe	*parsing(char **argv, char *path_var)
 		args = ft_split(node->input, ' ');
 		node->pathname = find_exec_pathname(args[0], path_var);
 		if (node->pathname)
-			node->arguments = organize_arguments(node->pathname, args);
+			node->arguments = organize_arguments(args);
+		if (!node->pathname)
+			node->pathname = ft_strdup(args[0]);
 		free_table(args);
-		if (!node->arguments)
-			return (free_chain(head), free(args), NULL);
 		node = node->next;
 	}
 	return (head);
@@ -92,15 +92,14 @@ static char	*find_exec_pathname(char *arg, char *path_var)
 	while (paths[i])
 	{
 		pathname = ft_strjoin(paths[i++], name);
-		if (access(pathname, F_OK) == 0)
-			if (access(pathname, X_OK) == 0)
-				return (free_table(paths), free(name), pathname);
+		if (access(pathname, X_OK) == 0)
+			return (free_table(paths), free(name), pathname);
 		free(pathname);
 	}
 	return (free_table(paths), free(name), NULL);
 }
 
-char	**organize_arguments(char *pathname, char **args)
+static char	**organize_arguments(char **args)
 {
 	int		i;
 	int		len;
@@ -112,8 +111,10 @@ char	**organize_arguments(char *pathname, char **args)
 	if (!result)
 		return (NULL);
 	result[len] = NULL;
-	result[i] = ft_strdup(pathname);
-	while (++i < len)
+	while (i < len)
+	{
 		result[i] = ft_strdup(args[i]);
+		i++;
+	}
 	return (result);
 }
