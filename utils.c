@@ -6,7 +6,7 @@
 /*   By: ssutarmi <ssutarmi@student_42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/31 18:58:03 by ssutarmi          #+#    #+#             */
-/*   Updated: 2026/01/22 21:26:28 by ssutarmi         ###   ########.fr       */
+/*   Updated: 2026/01/22 21:31:46 by ssutarmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,9 @@ void	pipe_switch(int *pipefd)
 	int	new_pipefd[2];
 
 	if (pipe(new_pipefd) == -1)
-		return ;
+		perror("pipe_switch");
 	if (dup2(new_pipefd[1], pipefd[0]) == -1)
 		return ;
+	close(new_pipefd[1]);
 	*pipefd = *new_pipefd;
 }

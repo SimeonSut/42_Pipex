@@ -6,7 +6,7 @@
 /*   By: ssutarmi <ssutarmi@student_42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 18:01:17 by ssutarmi          #+#    #+#             */
-/*   Updated: 2026/01/22 21:24:28 by ssutarmi         ###   ########.fr       */
+/*   Updated: 2026/01/22 21:31:59 by ssutarmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,10 @@ int	piping(t_pipe *head, char **envp)
 	t_pipe	*node;
 
 	node = head;
-	if (pipe(pipefd) == -1)
-		return (-1);
 	while (node && node->next)
 	{
-		if (node->pos > 2)
-			pipe_switch(pipefd);
+		if (pipe(pipefd) == -1)
+			return (-1);
 		pid = fork();
 		if (pid == -1)
 			return (-1);
