@@ -6,7 +6,7 @@
 /*   By: ssutarmi <ssutarmi@student_42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/31 18:58:03 by ssutarmi          #+#    #+#             */
-/*   Updated: 2026/01/21 17:41:45 by ssutarmi         ###   ########.fr       */
+/*   Updated: 2026/01/22 21:26:28 by ssutarmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,4 +64,15 @@ void	main_error_message(char	*input, char **envp)
 	ft_printf("%s: %s: %s", shell[i], message, input);
 	free_table(shell);
 	exit(EXIT_FAILURE);
+}
+
+void	pipe_switch(int *pipefd)
+{
+	int	new_pipefd[2];
+
+	if (pipe(new_pipefd) == -1)
+		return ;
+	if (dup2(new_pipefd[1], pipefd[0]) == -1)
+		return ;
+	*pipefd = *new_pipefd;
 }
