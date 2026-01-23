@@ -4,7 +4,7 @@ FLAGS = -Wall -Wextra -Werror -g
 
 SRC = main.c parsing.c piping.c utils.c cleaning.c
 
-SRC_BONUS = main_bonus.c parsing.c piping_bonus.c utils.c cleaning.c
+SRC_BONUS = main_bonus.c parsing.c piping_bonus.c children.c utils.c cleaning.c
 
 NAME = pipex
 

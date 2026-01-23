@@ -6,7 +6,7 @@
 /*   By: ssutarmi <ssutarmi@student_42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 18:12:32 by ssutarmi          #+#    #+#             */
-/*   Updated: 2026/01/21 18:47:54 by ssutarmi         ###   ########.fr       */
+/*   Updated: 2026/01/23 23:14:49 by ssutarmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,17 +18,17 @@ int	main(int argc, char **argv, char **envp)
 {
 	char	*path_var;
 	t_pipe	*head;
+	t_pipe	*node;
 
 	if (argc < 5)
 		return (0);
 	argv++;
-	if (access(*argv, F_OK) == -1)
-		main_error_message(*argv, envp);
 	path_var = get_env_var(envp, "PATH=", 5);
 	head = parsing(argv, path_var);
 	if (!head)
 		return (1);
-	if (piping(head, envp) == -1)
+	node = head;
+	if (piping(node, envp) == -1)
 		return (1);
 	return (free_chain(head), 1);
 }

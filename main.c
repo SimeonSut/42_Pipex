@@ -6,7 +6,7 @@
 /*   By: ssutarmi <ssutarmi@student_42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/26 15:03:06 by ssutarmi          #+#    #+#             */
-/*   Updated: 2026/01/21 17:29:04 by ssutarmi         ###   ########.fr       */
+/*   Updated: 2026/01/23 23:14:58 by ssutarmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,6 @@ int	main(int argc, char **argv, char **envp)
 	if (argc != 5)
 		return (0);
 	argv++;
-	if (access(*argv, F_OK) == -1)
-		main_error_message(*argv, envp);
 	path_var = get_env_var(envp, "PATH=", 5);
 	head = parsing(argv, path_var);
 	if (!head)

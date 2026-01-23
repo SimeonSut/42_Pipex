@@ -6,7 +6,7 @@
 /*   By: ssutarmi <ssutarmi@student_42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/31 19:26:26 by ssutarmi          #+#    #+#             */
-/*   Updated: 2026/01/22 15:13:54 by ssutarmi         ###   ########.fr       */
+/*   Updated: 2026/01/23 17:12:55 by ssutarmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,14 +50,12 @@ static void	input_process(t_pipe *head, char **envp, int *pipefd)
 	input_file = node->input;
 	fd = open(input_file, O_RDONLY);
 	if (fd == -1)
-		perror("");
-	if (dup2(fd, STDIN_FILENO) == -1)
-		perror("");
+		input_error_message(input_file, envp);
+	dup2(fd, STDIN_FILENO);
 	while (node && node->pos != 1)
 		node = node->next;
 	close(fd);
-	if (dup2(pipefd[1], STDOUT_FILENO) == -1)
-		perror("");
+	dup2(pipefd[1], STDOUT_FILENO);
 	execve(node->pathname, node->arguments, envp);
 	execve_error_message(head, envp, node->pathname);
 }
@@ -72,15 +70,13 @@ static void	output_process(t_pipe *head, char **envp, int *pipefd)
 	while (node && node->pos != 2)
 		node = node->next;
 	output_file = node->next->input;
-	if (dup2(pipefd[0], STDIN_FILENO) == -1)
-		perror("");
+	dup2(pipefd[0], STDIN_FILENO);
 	close(pipefd[1]);
 	close(pipefd[0]);
-	fd = open(output_file, O_CREAT | O_RDWR | O_TRUNC, S_IRUSR | S_IWUSR);
+	fd = open(output_file, O_CREAT | O_RDWR | O_TRUNC, 0644);
 	if (fd == -1)
 		perror("");
-	if (dup2(fd, STDOUT_FILENO) == -1)
-		perror("");
+	dup2(fd, STDOUT_FILENO);
 	close(fd);
 	execve(node->pathname, node->arguments, envp);
 	execve_error_message(head, envp, node->pathname);

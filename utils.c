@@ -6,7 +6,7 @@
 /*   By: ssutarmi <ssutarmi@student_42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/31 18:58:03 by ssutarmi          #+#    #+#             */
-/*   Updated: 2026/01/22 21:31:46 by ssutarmi         ###   ########.fr       */
+/*   Updated: 2026/01/23 16:59:49 by ssutarmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ void	execve_error_message(t_pipe *head, char **envp, char *pathname)
 		ft_putstr_fd(shell[i], STDERR_FILENO);
 		ft_putstr_fd(": command not found: ", STDERR_FILENO);
 		ft_putstr_fd(pathname, STDERR_FILENO);
+		ft_putchar_fd('\n', STDERR_FILENO);
 	}
 	else
 		perror("");
@@ -49,7 +50,7 @@ void	execve_error_message(t_pipe *head, char **envp, char *pathname)
 	exit(EXIT_FAILURE);
 }
 
-void	main_error_message(char	*input, char **envp)
+void	input_error_message(char	*input, char **envp)
 {
 	char	**shell;
 	char	*message;
@@ -61,19 +62,7 @@ void	main_error_message(char	*input, char **envp)
 	while (shell[i])
 		i++;
 	i--;
-	ft_printf("%s: %s: %s", shell[i], message, input);
+	ft_printf("%s: %s: %s\n", shell[i], message, input);
 	free_table(shell);
 	exit(EXIT_FAILURE);
-}
-
-void	pipe_switch(int *pipefd)
-{
-	int	new_pipefd[2];
-
-	if (pipe(new_pipefd) == -1)
-		perror("pipe_switch");
-	if (dup2(new_pipefd[1], pipefd[0]) == -1)
-		return ;
-	close(new_pipefd[1]);
-	*pipefd = *new_pipefd;
 }
