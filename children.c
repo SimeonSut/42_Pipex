@@ -6,7 +6,7 @@
 /*   By: ssutarmi <ssutarmi@student_42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/23 18:47:21 by ssutarmi          #+#    #+#             */
-/*   Updated: 2026/01/23 23:26:42 by ssutarmi         ###   ########.fr       */
+/*   Updated: 2026/01/24 16:01:45 by ssutarmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	proc_split(t_pipe *node, char **envp, int *pipe_in, int *pipe_out)
 	else if (node && node->next && node->next->next)
 		mid_child(node, envp, pipe_in, pipe_out);
 	else if (node && node->next && !node->next->next)
-		last_child(node, envp, pipe_out);
+		last_child(node, envp, pipe_in);
 }
 
 static void	first_child(t_pipe *node, char **envp, int *pipe_in)
