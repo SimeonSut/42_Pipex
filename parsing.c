@@ -6,7 +6,7 @@
 /*   By: ssutarmi <ssutarmi@student_42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/28 16:31:04 by ssutarmi          #+#    #+#             */
-/*   Updated: 2026/01/21 17:16:27 by ssutarmi         ###   ########.fr       */
+/*   Updated: 2026/01/25 20:48:37 by ssutarmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,10 @@ t_pipe	*parsing(char **argv, char *path_var)
 	while (node && node->next)
 	{
 		args = ft_split(node->input, ' ');
-		node->pathname = find_exec_pathname(args[0], path_var);
+		if (args[0])
+			node->pathname = find_exec_pathname(args[0], path_var);
+		else
+			node->pathname = ft_strdup("");
 		if (node->pathname)
 			node->arguments = organize_arguments(args);
 		if (!node->pathname)

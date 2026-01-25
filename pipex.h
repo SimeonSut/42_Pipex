@@ -6,7 +6,7 @@
 /*   By: ssutarmi <ssutarmi@student_42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/02 17:28:48 by ssutarmi          #+#    #+#             */
-/*   Updated: 2026/01/24 16:24:05 by ssutarmi         ###   ########.fr       */
+/*   Updated: 2026/01/25 20:33:28 by ssutarmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ t_pipe	*parsing(char **argv, char *path_var);
 
 // UTILS.C
 char	*get_env_var(char **envp, char *keyword, int check_len);
-void	execve_error_message(t_pipe *head, char **envp, char *pathname);
+void	execve_error_message(t_pipe *head, char **envp, char *cmd);
 void	input_error_message(char	*input, char **envp);
 
 // CLEANING.C
@@ -46,6 +46,6 @@ int		piping(t_pipe *node, char **envp);
 int		piping(t_pipe *node, char **envp);
 
 // CHILDREN.C
-void	proc_split(t_pipe *node, char **envp, int *pipe_in, int *pipe_out);
+int		proc_split(t_pipe *node, char **envp, int *pipe_in, int *pipe_out);
 
 #endif
