@@ -11,10 +11,10 @@ NAME = pipex
 all: $(NAME)
 
 $(NAME): $(SRC) libft
-	@$(CC) $(CFLAGS) $(SRC) libft.a -o $(NAME)
+	@$(CC) $(FLAGS) $(SRC) libft.a -o $(NAME)
 
 bonus: $(SRC_BONUS) libft
-	@$(CC) $(CFLAGS) $(SRC_BONUS) libft.a -o $(NAME)
+	@$(CC) $(FLAGS) $(SRC_BONUS) libft.a -o $(NAME)
 
 libft:
 	@cd Libft ; make ; make clean ; mv 'libft.a' ..
