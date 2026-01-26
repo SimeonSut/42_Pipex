@@ -107,4 +107,4 @@ Classic references for the concepts used in this project:
 
 - AI was used to **draft this README.md** from the official subject requirements and the project’s current source code.
 - AI answers, of the AI mode on google, was used for very specific research answers, mostly to indicate the correct sources to consult.
-- AI indicated if it was possible of or to do the bonus reusing the same pipes, wich lead me to implement it, whitout further AI use.
+- AI indicated if it was possible to do the bonus reusing the same pipes, wich lead me to implement it, whitout further AI use.
