@@ -1,6 +1,6 @@
 *This project has been created as part of the 42 curriculum by ssutarmi.*
 
-## Description
+# Description
 
 **pipex** is a 42 curriculum project focused on reproducing the UNIX pipe mechanism by implementing the equivalent of:
 
@@ -14,9 +14,9 @@ Bonus features (if compiled with the `bonus` target) include:
 - chaining **multiple commands** through a pipeline;
 - supporting **here_doc** mode (`<< LIMITER` then `>> file`).
 
-## Instructions
+# Instructions
 
-### Compilation
+## Compilation
 
 This repository includes a custom **libft** (located in `Libft/`). The provided `Makefile` builds `Libft/libft.a` automatically and moves it to the project root before linking.
 
@@ -34,13 +34,13 @@ Cleanup:
 ```sh
 make clean     # removes libft.a (and cleans Libft/ during libft build)
 make fclean    # removes libft.a and the pipex binary
-make re
-make rebonus
+make re        # removes libft.a and pipex binary, then recompiles them
+make rebonus   # removes libft.a and pipex_bonus binary, then recompiles them
 ```
 
-### Execution
+## Execution
 
-#### Mandatory usage
+### Mandatory usage
 
 ```sh
 ./pipex file1 "cmd1 with options" "cmd2 with options" file2
@@ -57,7 +57,7 @@ Examples:
 ./pipex infile "grep a1" "wc -w" outfile
 ```
 
-#### Bonus usage (multiple pipes)
+### Bonus usage (multiple pipes)
 
 ```sh
 ./pipex file1 "cmd1" "cmd2" "cmd3" ... "cmdn" file2
@@ -68,7 +68,7 @@ Equivalent shell behavior:
 < file1 cmd1 | cmd2 | cmd3 ... | cmdn > file2
 ```
 
-#### Bonus usage (here_doc)
+### Bonus usage (here_doc)
 
 ```sh
 ./pipex here_doc LIMITER "cmd1" "cmd2" ... file
@@ -89,7 +89,7 @@ Notes on here_doc behavior in this implementation:
 - Command lookup uses the `PATH` environment variable. Absolute paths (commands starting with `/`) are also supported when executable.
 - Error messages are printed to mimic a shell-like style (based on `errno` / `strerror` when relevant).
 
-## Resources
+# Resources
 
 Classic references for the concepts used in this project:
 
@@ -103,7 +103,8 @@ Classic references for the concepts used in this project:
 - *Advanced Programming in the UNIX Environment* (Stevens & Rago)
 - *The Linux Programming Interface* (Michael Kerrisk)
 
-### AI usage disclosure
+## AI usage disclosure
 
 - AI was used to **draft this README.md** from the official subject requirements and the project’s current source code.
-- No other AI usage is claimed in this document. If AI was used for additional tasks (e.g., design exploration, debugging assistance, implementation suggestions), update this section to specify **which tasks** and **which parts of the project** were affected, as required by the subject.
+- AI answers, of the AI mode on google, was used for very specific research answers, mostly to indicate the correct sources to consult.
+- AI indicated if it was possible of or to do the bonus reusing the same pipes, wich lead me to implement it, whitout further AI use.
