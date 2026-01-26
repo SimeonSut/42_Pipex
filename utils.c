@@ -6,7 +6,7 @@
 /*   By: ssutarmi <ssutarmi@student_42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/31 18:58:03 by ssutarmi          #+#    #+#             */
-/*   Updated: 2026/01/25 20:33:01 by ssutarmi         ###   ########.fr       */
+/*   Updated: 2026/01/26 19:08:03 by ssutarmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ char	*get_env_var(char **envp, char *keyword, int check_len)
 	return (NULL);
 }
 
-void	execve_error_message(t_pipe *head, char **envp, char *cmd)
+void	execve_error_message(char **envp, char *cmd)
 {
 	char	**shell;
 	char	*message;
@@ -54,7 +54,7 @@ void	execve_error_message(t_pipe *head, char **envp, char *cmd)
 	free_table(shell);
 }
 
-void	input_error_message(char	*input, char **envp)
+void	input_error_message(t_pipe *node, char *input, char **envp)
 {
 	char	**shell;
 	char	*message;
@@ -68,5 +68,6 @@ void	input_error_message(char	*input, char **envp)
 	i--;
 	ft_printf("%s: %s: %s\n", shell[i], message, input);
 	free_table(shell);
+	free_chain(node);
 	exit(EXIT_FAILURE);
 }

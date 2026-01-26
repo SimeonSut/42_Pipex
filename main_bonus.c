@@ -6,7 +6,7 @@
 /*   By: ssutarmi <ssutarmi@student_42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 18:12:32 by ssutarmi          #+#    #+#             */
-/*   Updated: 2026/01/25 20:50:07 by ssutarmi         ###   ########.fr       */
+/*   Updated: 2026/01/26 16:43:49 by ssutarmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,9 @@ int	main(int argc, char **argv, char **envp)
 
 	if (argc < 5)
 		return (0);
+	if (strncmp(argv[1], "here_doc", 9) == 0)
+		if (argc < 6)
+			return (0);
 	argv++;
 	path_var = get_env_var(envp, "PATH=", 5);
 	head = parsing(argv, path_var);

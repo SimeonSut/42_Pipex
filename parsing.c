@@ -6,7 +6,7 @@
 /*   By: ssutarmi <ssutarmi@student_42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/28 16:31:04 by ssutarmi          #+#    #+#             */
-/*   Updated: 2026/01/25 20:48:37 by ssutarmi         ###   ########.fr       */
+/*   Updated: 2026/01/26 18:36:30 by ssutarmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,8 @@ static t_pipe	*new_node(char *input, int pos)
 	node->pathname = NULL;
 	node->arguments = NULL;
 	node->pos = pos;
+	node->fd = 0;
+	node->here_doc = false;
 	node->next = NULL;
 	return (node);
 }

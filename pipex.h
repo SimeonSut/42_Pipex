@@ -6,7 +6,7 @@
 /*   By: ssutarmi <ssutarmi@student_42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/02 17:28:48 by ssutarmi          #+#    #+#             */
-/*   Updated: 2026/01/25 20:33:28 by ssutarmi         ###   ########.fr       */
+/*   Updated: 2026/01/26 19:08:15 by ssutarmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ typedef struct s_pipe_list
 	char				*pathname;
 	char				**arguments;
 	int					pos;
+	int					fd;
+	bool				here_doc;
 	struct s_pipe_list	*next;
 }	t_pipe;
 
@@ -32,8 +34,8 @@ t_pipe	*parsing(char **argv, char *path_var);
 
 // UTILS.C
 char	*get_env_var(char **envp, char *keyword, int check_len);
-void	execve_error_message(t_pipe *head, char **envp, char *cmd);
-void	input_error_message(char	*input, char **envp);
+void	execve_error_message(char **envp, char *cmd);
+void	input_error_message(t_pipe *node, char *input, char **envp);
 
 // CLEANING.C
 void	free_chain(t_pipe *head);
@@ -45,7 +47,7 @@ int		piping(t_pipe *node, char **envp);
 // PIPING_BONUS.C
 int		piping(t_pipe *node, char **envp);
 
-// CHILDREN.C
+// CHILDREN_BONUS.C
 int		proc_split(t_pipe *node, char **envp, int *pipe_in, int *pipe_out);
 
 #endif
