@@ -6,7 +6,7 @@
 /*   By: ssutarmi <ssutarmi@student_42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/26 15:03:06 by ssutarmi          #+#    #+#             */
-/*   Updated: 2026/01/26 17:48:36 by ssutarmi         ###   ########.fr       */
+/*   Updated: 2026/01/27 19:42:53 by ssutarmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,5 +31,6 @@ int	main(int argc, char **argv, char **envp)
 		free_chain(head);
 		exit(EXIT_FAILURE);
 	}
-	return (free_chain(head), 1);
+	free_chain(head);
+	return (0);
 }

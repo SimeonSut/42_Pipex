@@ -6,7 +6,7 @@
 /*   By: ssutarmi <ssutarmi@student_42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/02 17:28:48 by ssutarmi          #+#    #+#             */
-/*   Updated: 2026/01/26 19:08:15 by ssutarmi         ###   ########.fr       */
+/*   Updated: 2026/01/27 16:56:56 by ssutarmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,11 @@ void	input_error_message(t_pipe *node, char *input, char **envp);
 void	free_chain(t_pipe *head);
 t_pipe	*free_node(t_pipe *node);
 
-// PIPING.C
+// PIPING.C / PIPING_BONUS.c
 int		piping(t_pipe *node, char **envp);
 
-// PIPING_BONUS.C
-int		piping(t_pipe *node, char **envp);
+// CHILDREN.C
+int		proc_one_split(t_pipe *node, char **envp, int *pipe_fd);
 
 // CHILDREN_BONUS.C
 int		proc_split(t_pipe *node, char **envp, int *pipe_in, int *pipe_out);
