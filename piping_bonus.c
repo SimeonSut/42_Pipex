@@ -6,17 +6,65 @@
 /*   By: ssutarmi <ssutarmi@student_42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 18:01:17 by ssutarmi          #+#    #+#             */
-/*   Updated: 2026/01/26 19:41:54 by ssutarmi         ###   ########.fr       */
+/*   Updated: 2026/01/27 20:30:56 by ssutarmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-static int		loop(t_pipe	*node, char **envp, int *pipe_in, int *pipe_out);
-static pid_t	forking(t_pipe *node, char **envp, int *pipe_in, int *pipe_out);
 static void		here_doc_check(t_pipe *node);
-static int		file_opener(t_pipe *node);
+static pid_t	forking(t_pipe *node, char **envp, int *pipe_fd);
 
+int	piping(t_pipe *node, char **envp)
+{
+	int	pipe_in[2];
+	int	pipe_out[2];
+
+	if (pipe(pipe_fd) == -1)
+		return (perror(""), -1);
+	here_doc_check(node);
+	if (forking(node, envp, pipe_in) == 0)
+		return (-1);
+	close(pipe_in[1]);
+	node = node->next->next;
+	while (node->next)
+	{
+		if (pipe(pipe_out) == -1)
+			return (-1);
+		if (forking(node, envp, pipe_in, pipe_out) == 0)
+			return (-1);
+		node = node->next;
+	}
+}
+
+static void	here_doc_check(t_pipe *node)
+{
+	t_pipe	*track;
+
+	if (strncmp(node->input, "here_doc", 9) != 0)
+		return ;
+	track = node;
+	while (track)
+	{
+		track->here_doc = true;
+		track = track->next;
+	}
+}
+
+static pid_t	forking(t_pipe *node, char **envp, int *pipe_in, int *pipe_out)
+{
+	pid_t	pid;
+
+	pid = fork();
+	if (pid == -1)
+		return (-1);
+	if (pid == 0)
+		if (proc_split(node, envp, pipe_in, pipe_out) == 0)
+			return (0);
+	return (pid);
+}
+
+/*
 int	piping(t_pipe *node, char **envp)
 {
 	int		pipe_in[2];
@@ -108,4 +156,4 @@ static int	file_opener(t_pipe *node)
 	if (last_fd != -1)
 		track->fd = last_fd;
 	return (last_fd);
-}
+}*/
