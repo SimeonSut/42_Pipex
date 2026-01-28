@@ -178,8 +178,8 @@ Because 42 evaluations focus heavily on robustness:
 Classic references used for this project:
 - `man 2 pipe`, `man 2 fork`, `man 2 dup2`, `man 2 execve`, `man 2 waitpid`, `man 2 open`
 - The Linux Programming Interface (Michael Kerrisk) — chapters on processes and pipes
-- Advanced Programming in the UNIX Environment (Stevens & Rago)
-- Bash manual (pipelines, redirections, exit status semantics)
+- 27 video series of "Unix processes" on youtube
+- My Stackoverflow account and all saved answers
 
 ### AI usage
 AI was used as a **productivity aid**, not as an implementation shortcut:
