@@ -1,36 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   children.c                                         :+:      :+:    :+:   */
+/*   children_bonus.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ssutarmi <ssutarmi@student_42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/23 18:47:21 by ssutarmi          #+#    #+#             */
-/*   Updated: 2026/01/26 20:07:09 by ssutarmi         ###   ########.fr       */
+/*   Updated: 2026/01/28 18:53:38 by ssutarmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-static void	here_doc_child(t_pipe *node, int *pipe_in);
-static void	first_child(t_pipe *node, char **envp, int *pipe_in);
-static void	mid_child(t_pipe *node, char **envp, int *pipe_in, int *pipe_out);
-static void	last_child(t_pipe *node, char **envp, int *pipe_out);
+static void	here_doc_child(t_pipe *node, int *pipe_fd);
+static void	first_child(t_pipe *node, char **envp, int *pipe_fd);
+static void	mid_child(t_pipe *node, char **envp, int *pipe_fd, int fd_in);
+static void	last_child(t_pipe *node, char **envp, int fd_in);
 
-int	proc_split(t_pipe *node, char **envp, int *pipe_in, int *pipe_out)
+int	proc_split(t_pipe *node, char **envp, int *pipe_fd, int fd_in)
 {
 	if (node->pos == 0 && node->here_doc == true)
-		here_doc_child(node, pipe_in);
+		here_doc_child(node, pipe_fd);
 	else if (node->pos == 0)
-		first_child(node, envp, pipe_in);
+		first_child(node, envp, pipe_fd);
 	else if (node && node->next && node->next->next)
-		mid_child(node, envp, pipe_in, pipe_out);
+		mid_child(node, envp, pipe_fd, fd_in);
 	else if (node && node->next && !node->next->next)
-		last_child(node, envp, pipe_in);
+		last_child(node, envp, fd_in);
 	return (0);
 }
 
-static void	here_doc_child(t_pipe *node, int *pipe_in)
+static void	here_doc_child(t_pipe *node, int *pipe_fd)
 {
 	char	*line;
 	char	*limiter;
@@ -48,14 +48,14 @@ static void	here_doc_child(t_pipe *node, int *pipe_in)
 			free(line);
 			break ;
 		}
-		ft_putstr_fd(line, pipe_in[1]);
+		ft_putstr_fd(line, pipe_fd[1]);
 		free(line);
 	}
 	get_next_line(-1);
 	return ;
 }
 
-static void	first_child(t_pipe *node, char **envp, int *pipe_in)
+static void	first_child(t_pipe *node, char **envp, int *pipe_fd)
 {
 	int		fd;
 	char	*input_file;
@@ -66,46 +66,56 @@ static void	first_child(t_pipe *node, char **envp, int *pipe_in)
 		input_error_message(node, input_file, envp);
 	while (node && node->pos != 1)
 		node = node->next;
-	dup2(fd, STDIN_FILENO);
-	close(fd);
-	dup2(pipe_in[1], STDOUT_FILENO);
-	close(pipe_in[0]);
-	close(pipe_in[1]);
+	if (dup2(fd, STDIN_FILENO) == -1)
+		return ;
+	if (close(fd) == -1)
+		return ;
+	if (dup2(pipe_fd[1], STDOUT_FILENO) == -1)
+		return ;
+	if (close(pipe_fd[0]) == -1)
+		return ;
+	if (close(pipe_fd[1]) == -1)
+		return ;
 	if (ft_strncmp(node->pathname, "", 1))
 		execve(node->pathname, node->arguments, envp);
 	execve_error_message(envp, node->pathname);
 }
 
-static void	mid_child(t_pipe *node, char **envp, int *pipe_in, int *pipe_out)
+static void	mid_child(t_pipe *node, char **envp, int *pipe_fd, int fd_in)
 {
-	dup2(pipe_in[0], STDIN_FILENO);
-	close(pipe_in[0]);
-	dup2(pipe_out[1], STDOUT_FILENO);
-	close(pipe_out[1]);
+	if (dup2(fd_in, STDIN_FILENO) == -1)
+		return ;
+	if (close(fd_in) == -1)
+		return ;
+	if (dup2(pipe_fd[1], STDOUT_FILENO) == -1)
+		return ;
+	if (close(pipe_fd[1]) == -1)
+		return ;
 	if (ft_strncmp(node->pathname, "", 1))
 		execve(node->pathname, node->arguments, envp);
 	execve_error_message(envp, node->pathname);
 }
 
-static void	last_child(t_pipe *node, char **envp, int *pipe_out)
+static void	last_child(t_pipe *node, char **envp, int fd_in)
 {
 	char	*output_file;
 	int		fd;
 
-	output_file = NULL;
-	if (node->next)
-	{
-		output_file = node->next->input;
-		fd = node->next->fd;
-	}
-	dup2(pipe_out[0], STDIN_FILENO);
-	close(pipe_out[1]);
-	close(pipe_out[0]);
-	if (output_file)
-	{
-		dup2(fd, STDOUT_FILENO);
-		close(fd);
-	}
+	output_file = node->next->input;
+	if (dup2(fd_in, STDIN_FILENO) == -1)
+		return ;
+	if (close(fd_in) == -1)
+		return ;
+	if (node->here_doc == true)
+		fd = open(output_file, O_CREAT | O_RDWR | O_APPEND, 0644);
+	else
+		fd = open(output_file, O_CREAT | O_RDWR | O_TRUNC, 0644);
+	if (fd == -1)
+		return ;
+	if (dup2(fd, STDOUT_FILENO) == -1)
+		return ;
+	if (close(fd) == -1)
+		return ;
 	if (ft_strncmp(node->pathname, "", 1))
 		execve(node->pathname, node->arguments, envp);
 	execve_error_message(envp, node->pathname);

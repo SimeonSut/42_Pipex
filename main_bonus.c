@@ -6,7 +6,7 @@
 /*   By: ssutarmi <ssutarmi@student_42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 18:12:32 by ssutarmi          #+#    #+#             */
-/*   Updated: 2026/01/26 16:43:49 by ssutarmi         ###   ########.fr       */
+/*   Updated: 2026/01/28 18:22:34 by ssutarmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	main(int argc, char **argv, char **envp)
 	if (!head)
 		return (1);
 	node = head;
-	if (piping(node, envp) == 0)
+	if (piping(node, envp) == -1)
 	{
 		free_chain(head);
 		exit(EXIT_FAILURE);

@@ -6,7 +6,7 @@
 /*   By: ssutarmi <ssutarmi@student_42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/02 17:28:48 by ssutarmi          #+#    #+#             */
-/*   Updated: 2026/01/27 16:56:56 by ssutarmi         ###   ########.fr       */
+/*   Updated: 2026/01/28 18:53:42 by ssutarmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ typedef struct s_pipe_list
 	char				*pathname;
 	char				**arguments;
 	int					pos;
-	int					fd;
 	bool				here_doc;
 	struct s_pipe_list	*next;
 }	t_pipe;
@@ -48,6 +47,6 @@ int		piping(t_pipe *node, char **envp);
 int		proc_one_split(t_pipe *node, char **envp, int *pipe_fd);
 
 // CHILDREN_BONUS.C
-int		proc_split(t_pipe *node, char **envp, int *pipe_in, int *pipe_out);
+int		proc_split(t_pipe *node, char **envp, int *pipe_fd, int fd_in);
 
 #endif
