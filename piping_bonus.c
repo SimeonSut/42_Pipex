@@ -6,7 +6,7 @@
 /*   By: ssutarmi <ssutarmi@student_42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 18:01:17 by ssutarmi          #+#    #+#             */
-/*   Updated: 2026/01/28 19:06:31 by ssutarmi         ###   ########.fr       */
+/*   Updated: 2026/01/28 19:15:38 by ssutarmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	piping(t_pipe *node, char **envp)
 			return (-1);
 		fd_in = pipe_fd[0];
 		if (close(pipe_fd[1]) == -1)
-			return (-1);
+			return (perror(""), -1);
 		if (pipe(pipe_fd) == -1)
 			return (-1);
 		if (node->pos == 0)
@@ -81,11 +81,11 @@ static int	close_and_wait(int *pipe_fd, int fd_in)
 	int	wstatus;
 
 	if (close(pipe_fd[0]) == -1)
-		return (-1);
+		return (perror(""), -1);
 	if (close(pipe_fd[1]) == -1)
-		return (-1);
+		return (perror(""), -1);
 	if (close(fd_in) == -1)
-		return (-1);
+		return (perror(""), -1);
 	wait(&wstatus);
 	while (WIFEXITED(wstatus) == true)
 	{
