@@ -6,7 +6,7 @@
 /*   By: ssutarmi <ssutarmi@student_42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/23 18:47:21 by ssutarmi          #+#    #+#             */
-/*   Updated: 2026/01/28 18:53:38 by ssutarmi         ###   ########.fr       */
+/*   Updated: 2026/01/29 15:22:40 by ssutarmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,25 +34,24 @@ static void	here_doc_child(t_pipe *node, int *pipe_fd)
 {
 	char	*line;
 	char	*limiter;
-	int		lim_len;
 
 	limiter = node->next->input;
-	lim_len = ft_strlen(limiter);
-	while (1)
+	limiter = ft_strjoin(limiter, "\n");
+	line = get_next_line(STDIN_FILENO);
+	while (line)
 	{
-		line = get_next_line(STDIN_FILENO);
-		if (!line)
-			break ;
-		if (strncmp(line, limiter, lim_len) == 0)
+		if (ft_strncmp(line, limiter, ft_strlen(line)) == 0)
 		{
 			free(line);
 			break ;
 		}
 		ft_putstr_fd(line, pipe_fd[1]);
 		free(line);
+		line = get_next_line(STDIN_FILENO);
 	}
-	get_next_line(-1);
-	return ;
+	free(limiter);
+	free_chain(node);
+	exit(EXIT_SUCCESS);
 }
 
 static void	first_child(t_pipe *node, char **envp, int *pipe_fd)

@@ -6,7 +6,7 @@
 /*   By: ssutarmi <ssutarmi@student_42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/31 18:58:03 by ssutarmi          #+#    #+#             */
-/*   Updated: 2026/01/27 19:35:35 by ssutarmi         ###   ########.fr       */
+/*   Updated: 2026/01/29 14:58:12 by ssutarmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,12 @@ void	input_error_message(t_pipe *node, char *input, char **envp)
 	while (shell[i])
 		i++;
 	i--;
-	ft_printf("%s: %s: %s\n", shell[i], message, input);
+	ft_putstr_fd(shell[i], STDERR_FILENO);
+	ft_putstr_fd(": ", STDERR_FILENO);
+	ft_putstr_fd(message, STDERR_FILENO);
+	ft_putstr_fd(": ", STDERR_FILENO);
+	ft_putstr_fd(input, STDERR_FILENO);
+	ft_putchar_fd('\n', STDERR_FILENO);
 	free_table(shell);
 	free_chain(node);
 	exit(EXIT_FAILURE);

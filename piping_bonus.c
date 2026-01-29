@@ -6,7 +6,7 @@
 /*   By: ssutarmi <ssutarmi@student_42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 18:01:17 by ssutarmi          #+#    #+#             */
-/*   Updated: 2026/01/28 19:15:38 by ssutarmi         ###   ########.fr       */
+/*   Updated: 2026/01/29 15:52:41 by ssutarmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ int	piping(t_pipe *node, char **envp)
 {
 	int	pipe_fd[2];
 	int	fd_in;
+	int	wstatus;
 
 	fd_in = 0;
 	if (pipe(pipe_fd) == -1)
@@ -39,16 +40,15 @@ int	piping(t_pipe *node, char **envp)
 		else
 			node = node->next;
 	}
-	if (close_and_wait(pipe_fd, fd_in) == -1)
-		return (-1);
-	return (0);
+	wstatus = close_and_wait(pipe_fd, fd_in);
+	return (wstatus);
 }
 
 static void	here_doc_check(t_pipe *node)
 {
 	t_pipe	*track;
 
-	if (strncmp(node->input, "here_doc", 9) != 0)
+	if (ft_strncmp(node->input, "here_doc", 9) != 0)
 		return ;
 	track = node;
 	while (track)
@@ -65,6 +65,10 @@ static pid_t	forking(t_pipe *node, char **envp, int *pipe_fd, int fd_in)
 	pid = fork();
 	if (pid == -1)
 		return (-1);
+	if (node->pos == 0 && node->here_doc == true)
+		if (pid != 0)
+			if (waitpid(pid, NULL, 0) == -1)
+				return (perror(""), -1);
 	if (pid == 0)
 	{
 		if (proc_split(node, envp, pipe_fd, fd_in) == 0)
@@ -97,7 +101,5 @@ static int	close_and_wait(int *pipe_fd, int fd_in)
 				break ;
 		}
 	}
-	if (WIFEXITED(wstatus) == false)
-		return (-1);
-	return (0);
+	return (wstatus);
 }
